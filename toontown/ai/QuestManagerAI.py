@@ -339,6 +339,8 @@ class QuestManagerAI:
         return fishingItem
 
     def hasTailorClothingTicket(self, av, npc):
+        if av.clothingTicket:
+            return 1
         # Get the avatars current quests.
         avQuests = av.getQuests()
 
@@ -353,6 +355,8 @@ class QuestManagerAI:
         return 0
 
     def removeClothingTicket(self, av, npc):
+        if av.clothingTicket:
+            av.clothingTicket = False
         # Get the avatars current quests.
         avQuests = av.getQuests()
 

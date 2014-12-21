@@ -193,6 +193,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self._gmDisabled = False
         self.promotionStatus = [0, 0, 0, 0]
         self.buffs = []
+        self.clothingTicket = False
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -5175,3 +5176,16 @@ def disguise(command, suitIndex, value):
         return 'Merits set.'
     else:
         return 'Unknow command: %s' % command
+
+@magicWord(category=CATEGORY_PROGRAMMER)
+def clothingticket():
+    """
+    Gives an extremely volatile fake clothing ticket.
+    """
+    invoker = spellbook.getInvoker()
+    if not invoker.clothingTicket:
+        invoker.clothingTicket = True
+        return "Gave you a clothing ticket!"
+    else:
+        invoker.clothingTicket = False
+        return "Removed your clothing ticket!" 
