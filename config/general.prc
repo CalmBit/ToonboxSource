@@ -1,7 +1,7 @@
 # Window settings:
-window-title Toontown Infinite
+window-title The Toonbox
 win-origin -1 -1
-icon-filename phase_3/etc/icon.ico
+icon-filename phase_3/etc/toonbox.ico
 cursor-filename phase_3/etc/toonmono.cur
 
 # Audio:
