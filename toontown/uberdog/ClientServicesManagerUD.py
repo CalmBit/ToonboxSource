@@ -52,10 +52,10 @@ def executeHttpRequest(url, **extras):
     except:
         return None
 
-
-blacklist = executeHttpRequest('names/blacklist.json')
-if blacklist:
-    blacklist = json.loads(blacklist)
+#Broken code, thanks to TTI's closing
+#blacklist = executeHttpRequest('names/blacklist.json')
+#if blacklist:
+#    blacklist = json.loads(blacklist)
 
 
 def judgeName(name):
