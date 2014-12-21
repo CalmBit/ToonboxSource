@@ -4323,6 +4323,17 @@ def cheesyEffect(value, hood=0, expire=0):
     invoker.b_setCheesyEffect(value, hood, expire)
     return 'Set your cheesy effect to: %d' % value
 
+@magicWord(category=CATEGORY_PROGRAMMER, types=[int,int])
+def buffAdd(value, duration=1):
+    """
+    Modify the invokers current buff.
+    """
+    if(value != 0 and value != 1):
+        return 'Invalid Buff ID: %d' % value
+    invoker = spellbook.getInvoker()
+    invoker.addBuff(value,duration)
+    return 'Set your current buff to %d, lasting %d minutes!' % (value, duration)
+
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def hp(hp):
     """

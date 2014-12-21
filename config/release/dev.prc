@@ -35,9 +35,12 @@ want-resistance-dance #t
 
 # Optional:
 want-yin-yang #t
+want-talkative-tyler #t
 
 # Developer options:
 show-population #t
 force-skip-tutorial #t
 want-instant-parties #t
 
+want-christmas #t
+active-holidays 4, 57
