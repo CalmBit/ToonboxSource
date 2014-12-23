@@ -74,12 +74,12 @@ Chip = 'Chip'
 Dale = 'Dale'
 JailbirdDale = 'JailbirdDale'
 PoliceChip = 'PoliceChip'
-lTheBrrrgh = 'The Brrrgh'
-lDaisyGardens = 'Daisy Gardens'
-lDonaldsDock = "Donald's Dock"
-lDonaldsDreamland = "Donald's Dreamland"
-lMinniesMelodyland = "Minnie's Melodyland"
-lToontownCentral = 'Toontown Central'
+lTheBrrrgh = 'Toonbox Area Five'
+lDaisyGardens = 'Toonbox Area Three'
+lDonaldsDock = "Toonbox Area Two"
+lDonaldsDreamland = "Toonbox Area Seven"
+lMinniesMelodyland = "Toonbox Area Four"
+lToontownCentral = 'Toonbox Areae One'
 lToonHQ = 'Toon HQ'
 lSellbotHQ = 'Sellbot HQ'
 lGoofySpeedway = 'Goofy Speedway'
@@ -87,27 +87,27 @@ lOutdoorZone = "Chip 'n Dale's Acorn Acres"
 lGolfZone = "Chip 'n Dale's MiniGolf"
 lPartyHood = 'Party Grounds'
 GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
- 1000: ('to the', 'in the', 'Playground'),
+ 1000: ('to the', 'in the', 'Safe-Zone'),
  1100: ('to', 'on', 'Barnacle Boulevard'),
  1200: ('to', 'on', 'Seaweed Street'),
  1300: ('to', 'on', 'Lighthouse Lane'),
- 2000: ('to the', 'in the', 'Playground'),
- 2100: ('to', 'on', 'Silly Street'),
- 2200: ('to', 'on', 'Loopy Lane'),
- 2300: ('to', 'on', 'Punchline Place'),
- 3000: ('to the', 'in the', 'Playground'),
+ 2000: ('to the', 'in the', 'Safe-Zone'),
+ 2100: ('to', 'on', 'Blueprint Boulevard'),
+ 2200: ('to', 'on', 'Sandbox Street'),
+ 2300: ('to', 'on', 'Practical Place'),
+ 3000: ('to the', 'in the', 'Safe-Zone'),
  3100: ('to', 'on', 'Walrus Way'),
  3200: ('to', 'on', 'Sleet Street'),
  3300: ('to', 'on', 'Polar Place'),
- 4000: ('to the', 'in the', 'Playground'),
+ 4000: ('to the', 'in the', 'Safe-Zone'),
  4100: ('to', 'on', 'Alto Avenue'),
  4200: ('to', 'on', 'Baritone Boulevard'),
  4300: ('to', 'on', 'Tenor Terrace'),
- 5000: ('to the', 'in the', 'Playground'),
+ 5000: ('to the', 'in the', 'Safe-Zone'),
  5100: ('to', 'on', 'Elm Street'),
  5200: ('to', 'on', 'Maple Street'),
  5300: ('to', 'on', 'Oak Street'),
- 9000: ('to the', 'in the', 'Playground'),
+ 9000: ('to the', 'in the', 'Safe-Zone'),
  9100: ('to', 'on', 'Lullaby Lane'),
  9200: ('to', 'on', 'Pajama Place'),
  10000: ('to', 'in', 'Bossbot HQ Country Club'),
@@ -2382,7 +2382,9 @@ SuitSpinDoctorP = 'Spin Doctors'
 SuitLegalEagleP = 'Legal Eagles'
 SuitBigWigP = 'Big Wigs'
 SuitFaceoffDefaultTaunts = ['Boo!']
-SuitAttackDefaultTaunts = ['Take that!', 'Take a memo on this!']
+SuitAttackDefaultTaunts = ['Take that!', 
+                           'Take a memo on this!',
+                           'Did you prepare for this?']
 SuitAttackNames = {'Audit': 'Audit!',
  'Bite': 'Bite!',
  'BounceCheck': 'Bounce Check!',
@@ -2522,6 +2524,11 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
             "I'll throw you in the can!",
             "I'm making me a can o' toon-a!",
             "You don't taste so good out of the can."],
+ 'CigarSmoke': ["Where's a Surgeon General when you need one?",
+                'I\'ll make your outlook a little more "foggy".',
+                "I hope this sticks with you.",
+                "THIS is the smell of defeat.",
+                "You can quit anytime you want to."],
  'Chomp': ['Take a look at these chompers!',
            'Chomp, chomp, chomp!',
            "Here's something to chomp on.",
@@ -2560,6 +2567,11 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
               "You won't be moving anytime soon.",
               "You're not going anywhere.",
               'This will go on your permanent record.'],
+ 'DoubleTalk': ["Try to keep up, Toon.",
+                "My knowledge is practically encyclopedic.",
+                "Do you speak my language?",
+                "I'm two times the talker.",
+                "It's quite simple, really."],
  'Downsize': ['Come on down!',
               'Do you know how to get down?',
               "Let's get down to business.",

@@ -136,7 +136,7 @@ def doSuitAttack(attack):
     elif name == CHOMP:
         suitTrack = doChomp(attack)
     elif name == CIGAR_SMOKE:
-        suitTrack = doDefault(attack)
+        suitTrack = doCigarSmoke(attack)
     elif name == CLIPON_TIE:
         suitTrack = doClipOnTie(attack)
     elif name == CRUNCH:
@@ -2251,6 +2251,22 @@ def doPickPocket(attack):
         multiTrackList.append(soundTrack)
     return multiTrackList
 
+def doCigarSmoke(attack):
+    suit = attack['suit']
+    battle = attack['battle']
+    target = attack['target']
+    dmg = target['hp']
+    cigar = globalPropPool.getProp('cigar')
+    suitTrack = getSuitTrack(attack)
+    cigarPosPoints = [Point3(1.557, 0.0662, 2.375), VBase3(48.8846, 13.8649, 85.9578)]
+    cigarPropTrack = getPropTrack(cigar, suit.getRightHand(), cigarPosPoints, 0.6, 0.55, scaleUpPoint=Point3(1.41, 1.41, 1.41))
+    toonTrack = getToonTrack(attack, 3.6, ['cringe'], 3.0, ['sidestep'])
+    multiTrackList = Parallel(suitTrack, toonTrack)
+    if dmg > 0:
+        soundTrack = getSoundTrack('SA_fountain_pen.ogg', delay=0.2, node=suit)
+        multiTrackList.append(cigarPropTrack)
+        multiTrackList.append(soundTrack)
+    return multiTrackList
 
 def doFilibuster(attack):
     suit = attack['suit']

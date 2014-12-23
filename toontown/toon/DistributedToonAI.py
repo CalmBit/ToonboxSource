@@ -4392,7 +4392,7 @@ def maxToon(missingTrack=None):
             return 'You are required to have Throw and Squirt.'
         gagTracks[index] = 0
     invoker.b_setTrackAccess(gagTracks)
-    invoker.b_setMaxCarry(80)
+    invoker.b_setMaxCarry(255)
 
     # Next, max out their experience for the tracks they have:
     experience = Experience.Experience(invoker.getExperience(), invoker)
@@ -4768,14 +4768,14 @@ def cogIndex(index):
     return 'Set your Cog index to %d!' % index
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
-def inventory(a, b=None, c=None):
+def inventory(command, requestedMaxLevel=None, requestedTargetTrack=None):
     invoker = spellbook.getInvoker()
     inventory = invoker.inventory
-    if a == 'reset':
-        maxLevelIndex = b or 5
+    if command == 'reset':
+        maxLevelIndex = requestedMaxLevel or 5
         if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
             return 'Invalid max level index: ' + str(maxLevelIndex)
-        targetTrack = -1 or c
+        targetTrack = -1 or requestedTargetTrack
         if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
             return 'Invalid target track index: ' + str(targetTrack)
         for track in xrange(0, len(ToontownBattleGlobals.Tracks)):
@@ -4786,11 +4786,11 @@ def inventory(a, b=None, c=None):
             return 'Inventory reset.'
         else:
             return 'Inventory reset for target track index: ' + str(targetTrack)
-    elif a == 'restock':
-        maxLevelIndex = b or 5
+    elif command == 'restock':
+        maxLevelIndex = requestedMaxLevel or 5
         if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
             return 'Invalid max level index: ' + str(maxLevelIndex)
-        targetTrack = -1 or c
+        targetTrack = -1 or requestedTargetTrack
         if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
             return 'Invalid target track index: ' + str(targetTrack)
         if (targetTrack != -1) and (not invoker.hasTrackAccess(targetTrack)):
@@ -4803,7 +4803,7 @@ def inventory(a, b=None, c=None):
             return 'Inventory restocked for target track index: ' + str(targetTrack)
     else:
         try:
-            targetTrack = int(a)
+            targetTrack = int(command)
         except:
             return 'Invalid first argument.'
         if not invoker.hasTrackAccess(targetTrack):
@@ -4811,10 +4811,10 @@ def inventory(a, b=None, c=None):
         maxLevelIndex = b or 6
         if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
             return 'Invalid max level index: ' + str(maxLevelIndex)
-        for _ in xrange(c):
+        for _ in xrange(requestedTargetTrack):
             inventory.addItem(targetTrack, maxLevelIndex)
         invoker.b_setInventory(inventory.makeNetString())
-        return 'Restored %d Gags to: %d, %d' % (c, targetTrack, maxLevelIndex)
+        return 'Restored %d Gags to: %d, %d' % (requestedTargetTrack, targetTrack, maxLevelIndex)
 
 @magicWord(category=CATEGORY_CREATIVE, types=[str, str])
 def dna(part, value):

@@ -1,11 +1,11 @@
 import string
 from otp.otpbase.OTPLocalizerEnglishProperty import *
-lTheBrrrgh = 'The Brrrgh'
-lDaisyGardens = 'Daisy Gardens'
-lDonaldsDock = "Donald's Dock"
-lDonaldsDreamland = "Donald's Dreamland"
-lMinniesMelodyland = "Minnie's Melodyland"
-lToontownCentral = 'Toontown Central'
+lTheBrrrgh = 'Toonbox Area Five'
+lDaisyGardens = 'Toonbox Area Three'
+lDonaldsDock = "Toonbox Area Two"
+lDonaldsDreamland = "Toonbox Area Six"
+lMinniesMelodyland = "Toonbox Area Four"
+lToontownCentral = 'Toonbox Area One'
 lGoofySpeedway = 'Goofy Speedway'
 lOutdoorZone = "Chip 'n Dale's Acorn Acres"
 lGolfZone = "Chip 'n Dale's MiniGolf"
