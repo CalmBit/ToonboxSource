@@ -2255,17 +2255,55 @@ def doCigarSmoke(attack):
     suit = attack['suit']
     battle = attack['battle']
     target = attack['target']
+    toon = target['toon']
     dmg = target['hp']
+    BattleParticles.loadParticles()
+    smoke = BattleParticles.createParticleEffect('Smoke')
+    BattleParticles.setEffectTexture(smoke, 'snow-particle')
     cigar = globalPropPool.getProp('cigar')
     suitTrack = getSuitTrack(attack)
-    cigarPosPoints = [Point3(1.557, 0.0662, 2.375), VBase3(48.8846, 13.8649, 85.9578)]
-    cigarPropTrack = getPropTrack(cigar, suit.getRightHand(), cigarPosPoints, 0.6, 0.55, scaleUpPoint=Point3(1.41, 1.41, 1.41))
-    toonTrack = getToonTrack(attack, 3.6, ['cringe'], 3.0, ['sidestep'])
+    cigarPosPoints = [Point3(-0.05, -0.2, -0.25), VBase3(180.0, 0.0, 0.0)]
+    cigarPropTrack = getPropTrack(cigar, suit.getRightHand(), cigarPosPoints, 0.6, 3.6, scaleUpPoint=Point3(6.0, 6.0, 6.0))
+    toonTrack = getToonTrack(attack, 3.55, ['cringe'], 3.0, ['sidestep'])
     multiTrackList = Parallel(suitTrack, toonTrack)
+    soundTrack = getSoundTrack('SA_cigar_puff.ogg', delay=0.8, node=suit)
+    smokeTrack = getPartTrack(smoke, 3.45, 1.5, [smoke, suit, 0])
+    multiTrackList.append(cigarPropTrack)
+    multiTrackList.append(soundTrack)
+    multiTrackList.append(smokeTrack)
+
+    def changeColor(parts):
+        track = Parallel()
+        for partNum in xrange(0, parts.getNumPaths()):
+            nextPart = parts.getPath(partNum)
+            track.append(Func(nextPart.setColorScale, Vec4(0, 0, 0, 1)))
+
+        return track
+
+    def resetColor(parts):
+        track = Parallel()
+        for partNum in xrange(0, parts.getNumPaths()):
+            nextPart = parts.getPath(partNum)
+            track.append(Func(nextPart.clearColorScale))
+
+        return track
+
     if dmg > 0:
-        soundTrack = getSoundTrack('SA_fountain_pen.ogg', delay=0.2, node=suit)
-        multiTrackList.append(cigarPropTrack)
-        multiTrackList.append(soundTrack)
+        headParts = toon.getHeadParts()
+        torsoParts = toon.getTorsoParts()
+        legsParts = toon.getLegsParts()
+        colorTrack = Sequence()
+        colorTrack.append(Wait(3.6))
+        colorTrack.append(Func(battle.movie.needRestoreColor))
+        colorTrack.append(changeColor(headParts))
+        colorTrack.append(changeColor(torsoParts))
+        colorTrack.append(changeColor(legsParts))
+        colorTrack.append(Wait(2.2))
+        colorTrack.append(resetColor(headParts))
+        colorTrack.append(resetColor(torsoParts))
+        colorTrack.append(resetColor(legsParts))
+        colorTrack.append(Func(battle.movie.clearRestoreColor))
+        multiTrackList.append(colorTrack)
     return multiTrackList
 
 def doFilibuster(attack):
