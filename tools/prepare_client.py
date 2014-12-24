@@ -13,7 +13,7 @@ parser.add_argument('--build-dir', default='build',
                     help='The directory in which to store the build files.')
 parser.add_argument('--src-dir', default='..',
                     help='The directory of the Toontown Infinite source code.')
-parser.add_argument('--server-ver', default='infinite-dev',
+parser.add_argument('--server-ver', default='toonbox-dev',
                     help='The server version of this build.')
 parser.add_argument('--build-mfs', action='store_true',
                     help='When present, the resource multifiles will be built.')
@@ -88,14 +88,14 @@ for module in args.modules:
         if not os.path.exists(outputDir):
             os.mkdir(outputDir)
         for filename in files:
-            if filename not in args.include:
+            if args.include is None or filename not in args.include:
                 if not filename.endswith('.py'):
                     continue
                 if filename.endswith('UD.py'):
                     continue
                 if filename.endswith('AI.py'):
                     continue
-                if filename in args.exclude:
+                if args.exclude is not None and filename in args.exclude:
                     continue
             with open(os.path.join(root, filename), 'r') as f:
                 data = minify(f)
@@ -124,11 +124,12 @@ with open(configFilePath) as f:
             data[i] = 'server-version ' + args.server_ver
 
     # Add our virtual file system data:
-    data.append('\n# Virtual file system...\nmodel-path /\n')
-    for filepath in args.vfs:
-        data.append('vfs-mount %s /\n' % filepath)
+    #data.append('\n# Virtual file system...\nmodel-path /\n')
+    #if
+    #for filepath in args.vfs:
+       # data.append('vfs-mount %s /\n' % filepath)
 
-    configData.append('\n'.join(data))
+    #configData.append('\n'.join(data))
 
 # Next, we need the DC file:
 dcData = ''

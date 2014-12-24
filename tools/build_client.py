@@ -10,9 +10,9 @@ parser.add_argument('--build-dir', default='build',
                     help='The directory of which the build was prepared.')
 parser.add_argument('--output', default='GameData.pyd',
                     help='The built file.')
-parser.add_argument('--main-module', default='infinite.base.ClientStart',
+parser.add_argument('--main-module', default='toontown.toonbase.ClientStart',
                     help='The module to load at the start of the game.')
-parser.add_argument('modules', nargs='*', default=['shared', 'infinite'],
+parser.add_argument('modules', nargs='*', default=['otp', 'toontown'],
                     help='The Toontown Infinite modules to be included in the build.')
 args = parser.parse_args()
 
@@ -30,5 +30,6 @@ cmd += ' -i site'
 cmd += ' -o ' + args.output
 cmd += ' ' + args.main_module
 os.system(cmd)
+print cmd
 
 print 'Done building the client.'
