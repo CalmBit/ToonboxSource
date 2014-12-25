@@ -2636,29 +2636,24 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.applyBuffs()
 
     def applyBuffs(self):
-        moveMult = 1
-        jumpMult = 1
+        multiplierList = dict.fromkeys(ToontownGlobals.BuffList.keys(), 1.0)
         for id, timestamp in enumerate(self.buffs):
-            if not timestamp:
-                    return
-            if self.zoneId is None:
-                return
-            if ZoneUtil.isDynamicZone(self.zoneId):
-                return
-            if ZoneUtil.getWhereName(self.zoneId, True) not in ('playground', 'street', 'toonInterior', 'cogHQExterior', 'factoryExterior'):
-                return
-            
-            if id == ToontownGlobals.BMovementSpeed:
-                moveMult = ToontownGlobals.BMovementSpeedMultiplier
-            if id == ToontownGlobals.BJumpHigh:
-                jumpMult = ToontownGlobals.BJumpHighMultiplier
-                
+            if id <= (len(ToontownGlobals.BuffList) - 1):
+                if not timestamp:
+                    continue
+                if self.zoneId is None:
+                    continue
+                if ZoneUtil.isDynamicZone(self.zoneId):
+                    continue
+                if ZoneUtil.getWhereName(self.zoneId, True) not in ('playground', 'street', 'toonInterior', 'cogHQExterior', 'factoryExterior'):
+                    continue
+                multiplierList[id] = ToontownGlobals.BuffList[id][1]
         self.controlManager.setSpeeds(
-            ToontownGlobals.ToonForwardSpeed * moveMult,
-            ToontownGlobals.ToonJumpForce * jumpMult,
-            ToontownGlobals.ToonReverseSpeed * moveMult,
-            ToontownGlobals.ToonRotateSpeed * moveMult)
-
+        ToontownGlobals.ToonForwardSpeed * multiplierList[0], 
+        ToontownGlobals.ToonJumpForce * multiplierList[2],
+        ToontownGlobals.ToonReverseSpeed * multiplierList[0],
+        ToontownGlobals.ToonRotateSpeed * multiplierList[0])
+                    
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def globalTeleport():
     """

@@ -1675,7 +1675,7 @@ AV_TOUCH_CHECK_TIMELIMIT_CL = 0.002
 AV_TOUCH_COUNT_LIMIT = 5
 AV_TOUCH_COUNT_TIME = 300
 
-# Buffs...
+# DEPRECATED: Use List structure instead.
 
 BMovementSpeed = 0
 BMovementSpeedMultiplier = 1.3
@@ -1685,3 +1685,11 @@ BGagAccuracyMultiplier = 1.3
 
 BJumpHigh = 2
 BJumpHighMultiplier = 1.3
+
+
+
+BuffList = {
+    0: ('MovementSpeed', 1.3),
+    1: ('GagAccuracy', 1.3),
+    2: ('JumpHigh', 5.0)
+}

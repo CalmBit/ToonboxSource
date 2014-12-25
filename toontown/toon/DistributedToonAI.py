@@ -4329,7 +4329,7 @@ def buffAdd(value, duration=1):
     """
     Modify the invokers current buff.
     """
-    if(value != 0 and value != 1):
+    if(value > len(ToontownGlobals.BuffList)):
         return 'Invalid Buff ID: %d' % value
     invoker = spellbook.getInvoker()
     invoker.addBuff(value,duration)
