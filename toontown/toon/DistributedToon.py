@@ -2636,21 +2636,28 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.applyBuffs()
 
     def applyBuffs(self):
+        moveMult = 1
+        jumpMult = 1
         for id, timestamp in enumerate(self.buffs):
+            if not timestamp:
+                    return
+            if self.zoneId is None:
+                return
+            if ZoneUtil.isDynamicZone(self.zoneId):
+                return
+            if ZoneUtil.getWhereName(self.zoneId, True) not in ('playground', 'street', 'toonInterior', 'cogHQExterior', 'factoryExterior'):
+                return
+            
             if id == ToontownGlobals.BMovementSpeed:
-                if not timestamp:
-                    return
-                if self.zoneId is None:
-                    return
-                if ZoneUtil.isDynamicZone(self.zoneId):
-                    return
-                if ZoneUtil.getWhereName(self.zoneId, True) not in ('playground', 'street', 'toonInterior', 'cogHQExterior', 'factoryExterior'):
-                    return
-                self.controlManager.setSpeeds(
-                    ToontownGlobals.ToonForwardSpeed * ToontownGlobals.BMovementSpeedMultiplier,
-                    ToontownGlobals.ToonJumpForce,
-                    ToontownGlobals.ToonReverseSpeed * ToontownGlobals.BMovementSpeedMultiplier,
-                    ToontownGlobals.ToonRotateSpeed * ToontownGlobals.BMovementSpeedMultiplier)
+                moveMult = ToontownGlobals.BMovementSpeedMultiplier
+            if id == ToontownGlobals.BJumpHigh:
+                jumpMult = ToontownGlobals.BJumpHighMultiplier
+                
+        self.controlManager.setSpeeds(
+            ToontownGlobals.ToonForwardSpeed * moveMult,
+            ToontownGlobals.ToonJumpForce * jumpMult,
+            ToontownGlobals.ToonReverseSpeed * moveMult,
+            ToontownGlobals.ToonRotateSpeed * moveMult)
 
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def globalTeleport():

@@ -18,6 +18,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownGlobals import *
 
+import random
+
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieSuitAttacks')
 
@@ -244,7 +246,7 @@ def doSuitAttack(attack):
     elif name == TEE_OFF:
         suitTrack = doTeeOff(attack)
     elif name == THROW_BOOK:
-        suitTrack = doDefault(attack)
+        suitTrack = doThrowBook(attack)
     elif name == TREMOR:
         suitTrack = doTremor(attack)
     elif name == WATERCOOLER:
@@ -3268,6 +3270,48 @@ def doEvictionNotice(attack):
     toonTrack = getToonTrack(attack, 3.4, ['conked'], 2.8, ['jump'])
     return Parallel(suitTrack, toonTrack, propTrack)
 
+def doThrowBook(attack):
+    suit = attack['suit']
+    battle = attack['battle']
+    target = attack['target']
+    toon = target['toon']
+    dmg = target['hp']
+    suitDelay = 2.0
+    propDelay = 0.6
+    throwDuration = 1.5
+    paper = globalPropPool.getProp('lawbook')
+    suitTrack = getSuitTrack(attack)
+    posPoints = [Point3(0.00, -1.00, -1.85), VBase3(180.00, -45.00, -45.00)]
+    paperTrack = Sequence(getPropAppearTrack(paper, suit.getRightHand(), posPoints, propDelay, Point3(2.25, 2.25, 2.25), scaleUpTime=0.5))
+    paperTrack.append(Wait(suitDelay))
+    hitPoint = toon.getPos(battle)
+    hitPoint.setX(hitPoint.getX() + 1.2)
+    hitPoint.setY(hitPoint.getY() + 1.5)
+    if dmg > 0:
+        hitPoint.setZ(hitPoint.getZ() + 1.1)
+    movePoint = Point3(hitPoint.getX(), hitPoint.getY() - 1.8, hitPoint.getZ() + 0.2)
+    paperTrack.append(Func(battle.movie.needRestoreRenderProp, paper))
+    paperTrack.append(Func(paper.wrtReparentTo, battle))
+    paperTrack.append(getThrowTrack(paper, hitPoint, duration=throwDuration, parent=battle))
+    paperTrack.append(Wait(0.6))
+    paperTrack.append(LerpPosInterval(paper, 0.4, movePoint))
+    spinTrack = Sequence(Wait(propDelay + suitDelay + 0.2), LerpHprInterval(paper, throwDuration, Point3(-360, 0, 0)))
+    sizeTrack = Sequence(Wait(propDelay + suitDelay + 0.2), LerpScaleInterval(paper, throwDuration, Point3(6, 6, 6)), Wait(0.95), LerpScaleInterval(paper, 0.4, MovieUtil.PNT3_NEARZERO))
+    propTrack = Sequence(Parallel(paperTrack, spinTrack, sizeTrack), Func(MovieUtil.removeProp, paper), Func(battle.movie.clearRenderProp, paper))
+    damageAnims = []
+    damageAnims.append(['cringe',
+     0.01,
+     0.21,
+     0.08])
+    damageAnims.append(['slip-forward',
+     0.01,
+     0.6,
+     0.85])
+    damageAnims.extend(getSplicedLerpAnims('slip-forward', 0.31, 0.95, startTime=1.2))
+    damageAnims.append(['slip-forward', 0.01, 1.51])
+    toonTrack = getToonTrack(attack, damageDelay=4.35, splicedDamageAnims=damageAnims, dodgeDelay=2.4, dodgeAnimNames=['sidestep'], showDamageExtraTime=0.4, showMissedExtraTime=1.3)
+    return Parallel(suitTrack, toonTrack, propTrack)
+
 
 def doWithdrawal(attack):
     suit = attack['suit']
@@ -3312,7 +3356,12 @@ def doWithdrawal(attack):
         colorTrack.append(resetColor(torsoParts))
         colorTrack.append(resetColor(legsParts))
         colorTrack.append(Func(battle.movie.clearRestoreColor))
-        return Parallel(suitTrack, partTrack, toonTrack, soundTrack, colorTrack)
+        healAmount = random.randint((dmg/2),(dmg))
+        suitHealTrack = Sequence()
+        suitHealTrack.append(Wait(2.1))
+        suitHealTrack.append(Func(suit.showHpText, healAmount, openEnded=0))
+        suitHealTrack.append(Func(suit.updateHealthBar, healAmount, forceUpdate = 1, addition=True))
+        return Parallel(suitTrack, partTrack, toonTrack, soundTrack, colorTrack, suitHealTrack)
     else:
         return Parallel(suitTrack, partTrack, toonTrack, soundTrack)
 

@@ -2321,11 +2321,11 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                      75,
                      75,
                      75),
-                    (20,
-                     20,
-                     20,
-                     20,
-                     20)),
+                    (0,#20
+                     0,#20
+                     0,#20
+                     0,#20
+                     0)),#20
                    ('RedTape',
                     (2,
                      3,
@@ -2337,11 +2337,11 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                      75,
                      75,
                      75),
-                    (20,
-                     20,
-                     20,
-                     20,
-                     20)),
+                    (0,#20
+                     0,#20
+                     0,#20
+                     0,#20
+                     0)),#20
                    ('Withdrawal',
                     (6,
                      8,
@@ -2353,11 +2353,11 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                      95,
                      95,
                      95),
-                    (10,
-                     10,
-                     10,
-                     10,
-                     10)),
+                    (100,
+                     100,
+                     100,
+                     100,
+                     100)),
                    ('Liquidate',
                     (2,
                      3,
@@ -2369,11 +2369,11 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                      70,
                      80,
                      90),
-                    (50,
-                     50,
-                     50,
-                     50,
-                     50)))},
+                    (0,#50
+                     0,#50
+                     0,#50
+                     0,#50
+                     0)))},#50
  'dt': {'name': TTLocalizer.SuitDoubleTalker,
         'singularname': TTLocalizer.SuitDoubleTalkerS,
         'pluralname': TTLocalizer.SuitDoubleTalkerP,
@@ -3041,7 +3041,7 @@ def getAttackTauntIndex(attackName):
         taunts = SuitAttackTaunts[attackName]
         return random.randint(0, len(taunts) - 1)
     else:
-        return 1
+        return random.randint(0, len(TTLocalizer.SuitAttackDefaultTaunts) - 1) #ALL the default taunts.
 
 
 def getAttackTaunt(attackName, index = None):

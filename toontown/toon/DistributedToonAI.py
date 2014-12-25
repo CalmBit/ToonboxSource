@@ -4333,7 +4333,7 @@ def buffAdd(value, duration=1):
         return 'Invalid Buff ID: %d' % value
     invoker = spellbook.getInvoker()
     invoker.addBuff(value,duration)
-    return 'Set your current buff to %d, lasting %d minutes!' % (value, duration)
+    return TTLocalizer.getBuffString(value, duration)
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def hp(hp):

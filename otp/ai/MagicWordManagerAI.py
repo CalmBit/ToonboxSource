@@ -3,6 +3,7 @@ from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from otp.ai.MagicWordGlobal import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import *
+import string
 
 class MagicWordManagerAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("MagicWordManagerAI")
@@ -56,7 +57,7 @@ def help(wordName=None):
                 if wname in key:
                     return 'Did you mean %s' % (spellbook.words.get(key).name)
         return 'I have no clue what %s is refering to' % (wordName)
-    return word.doc
+    return string.lstrip(word.doc)
             
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[])
 def words():

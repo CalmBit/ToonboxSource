@@ -2384,7 +2384,9 @@ SuitBigWigP = 'Big Wigs'
 SuitFaceoffDefaultTaunts = ['Boo!']
 SuitAttackDefaultTaunts = ['Take that!', 
                            'Take a memo on this!',
-                           'Did you prepare for this?']
+                           'Did you prepare for this?',
+                           'Can you handle me?',
+                           'Face my wrath!']
 SuitAttackNames = {'Audit': 'Audit!',
  'Bite': 'Bite!',
  'BounceCheck': 'Bounce Check!',
@@ -9828,8 +9830,10 @@ YangGoodbye = 'Okay, then. See you later!'
 buffIdStrings = {
   0: ('Your movement speed will be slightly increased for the next %d %s.',
       'Reward: Increased movement speed'),
-  1: ('Your gag accuracy will be slight increased for the next %d %s.',
-      'Reward: Increased gag accuracy')
+  1: ('Your gag accuracy will be slightly increased for the next %d %s.',
+      'Reward: Increased gag accuracy'),
+  2: ('Your jump height will be slightly increased for the next %d %s',
+      'Reward: Increased jump height')
 }
 
 def getBuffString(buffId, buffTime):

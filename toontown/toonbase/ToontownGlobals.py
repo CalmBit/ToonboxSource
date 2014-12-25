@@ -1682,3 +1682,6 @@ BMovementSpeedMultiplier = 1.3
 
 BGagAccuracy = 1
 BGagAccuracyMultiplier = 1.3
+
+BJumpHigh = 2
+BJumpHighMultiplier = 1.3
