@@ -1675,21 +1675,18 @@ AV_TOUCH_CHECK_TIMELIMIT_CL = 0.002
 AV_TOUCH_COUNT_LIMIT = 5
 AV_TOUCH_COUNT_TIME = 300
 
-# DEPRECATED: Use List structure instead.
-
 BMovementSpeed = 0
-BMovementSpeedMultiplier = 1.3
-
 BGagAccuracy = 1
-BGagAccuracyMultiplier = 1.3
-
 BJumpHigh = 2
-BJumpHighMultiplier = 1.3
-
-
 
 BuffList = {
-    0: ('MovementSpeed', 1.3),
-    1: ('GagAccuracy', 1.3),
-    2: ('JumpHigh', 5.0)
+    BMovementSpeed: ('MovementSpeed', 1.3),
+    BGagAccuracy: ('GagAccuracy', 1.3),
+    BJumpHigh: ('JumpHigh', 1.3)
 }
+
+def getBuffMultiplier(id):
+    if(id > len(BuffList) - 1):
+        return 1
+    else:
+        return BuffList[id][1]

@@ -2636,6 +2636,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.applyBuffs()
 
     def applyBuffs(self):
+        #Initalize multiplier list
         multiplierList = dict.fromkeys(ToontownGlobals.BuffList.keys(), 1.0)
         for id, timestamp in enumerate(self.buffs):
             if id <= (len(ToontownGlobals.BuffList) - 1):
@@ -2647,12 +2648,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                     continue
                 if ZoneUtil.getWhereName(self.zoneId, True) not in ('playground', 'street', 'toonInterior', 'cogHQExterior', 'factoryExterior'):
                     continue
-                multiplierList[id] = ToontownGlobals.BuffList[id][1]
+                multiplierList[id] = ToontownGlobals.getBuffMultiplier(id)
+
+        #Now use the multipliers!
         self.controlManager.setSpeeds(
-        ToontownGlobals.ToonForwardSpeed * multiplierList[0], 
-        ToontownGlobals.ToonJumpForce * multiplierList[2],
-        ToontownGlobals.ToonReverseSpeed * multiplierList[0],
-        ToontownGlobals.ToonRotateSpeed * multiplierList[0])
+        ToontownGlobals.ToonForwardSpeed * multiplierList[ToontownGlobals.BMovementSpeed], 
+        ToontownGlobals.ToonJumpForce * multiplierList[ToontownGlobals.BJumpHigh],
+        ToontownGlobals.ToonReverseSpeed * multiplierList[ToontownGlobals.BMovementSpeed],
+        ToontownGlobals.ToonRotateSpeed * multiplierList[ToontownGlobals.BMovementSpeed])
                     
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def globalTeleport():

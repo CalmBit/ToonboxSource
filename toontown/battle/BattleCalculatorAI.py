@@ -173,7 +173,7 @@ class BattleCalculatorAI:
             randChoice = random.randint(0, 99)
         propAcc = AvPropAccuracy[atkTrack][atkLevel]
         if hasAccuracyBuff:
-            propAcc *= BGagAccuracyMultiplier
+            propAcc *= getBuffMultiplier(BGagAccuracy)
         if atkTrack == LURE:
             treebonus = self.__toonCheckGagBonus(attack[TOON_ID_COL], atkTrack, atkLevel)
             propBonus = self.__checkPropBonus(atkTrack)
