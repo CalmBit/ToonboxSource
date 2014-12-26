@@ -13,8 +13,14 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
     def giveAwardToToonResult(self, todo0, todo1):
         pass
 
-    def redeemCode(self, todo0, todo1):
-        self.notify.info("I was frozen today!")
+    def redeemCode(self, context, code):
+        avId = self.air.getAvatarIdFromSender()
+        if code == "this-code-works":
+            result = 0
+        else:
+            result = 1
+        awardMgrResult = 0
+        self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, result, awardMgrResult])
 
     def redeemCodeAiToUd(self, todo0, todo1, todo2, todo3, todo4):
         pass
