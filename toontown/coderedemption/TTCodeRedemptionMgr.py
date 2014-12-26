@@ -7,6 +7,7 @@ class TTCodeRedemptionMgr(DistributedObject):
 
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
+        self.notify.setInfo(True)
 
     def announceGenerate(self):
         DistributedObject.announceGenerate(self)
@@ -26,8 +27,9 @@ class TTCodeRedemptionMgr(DistributedObject):
     def redeemCode(self, code, callback):
         context = self._contextGen.next()
         self._context2callback[context] = callback
-        self.notify.debug('redeemCode(%s, %s)' % (context, code))
+        self.notify.info('redeemCode(%s, %s)' % (context, code))
         self.sendUpdate('redeemCode', [context, code])
+        self.notify.info('Update should have sent!')
 
     def redeemCodeResult(self, context, result, awardMgrResult):
         self.notify.debug('redeemCodeResult(%s, %s, %s)' % (context, result, awardMgrResult))

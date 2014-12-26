@@ -28,6 +28,7 @@ from toontown.distributed.ToontownDistrictStatsAI import ToontownDistrictStatsAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
 from toontown.dna.DNAParser import loadDNAFileAI
 from toontown.estate.EstateManagerAI import EstateManagerAI
+from toontown.coderedemption.TTCodeRedemptionMgrAI import TTCodeRedemptionMgrAI
 from toontown.hood import BRHoodAI
 from toontown.hood import BossbotHQAI
 from toontown.hood import CashbotHQAI
@@ -107,6 +108,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.banManager = BanManagerAI.BanManagerAI(self)
         self.achievementsManager = AchievementsManagerAI(self)
         self.suitInvasionManager = SuitInvasionManagerAI(self)
+        self.codeRedemptionMgr = TTCodeRedemptionMgrAI(self)
+        self.codeRedemptionMgr.generateWithRequired(2)
         self.trophyMgr = DistributedTrophyMgrAI(self)
         self.trophyMgr.generateWithRequired(2)
         self.cogSuitMgr = CogSuitManagerAI.CogSuitManagerAI(self)
