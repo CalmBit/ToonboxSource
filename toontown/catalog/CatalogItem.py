@@ -252,6 +252,9 @@ class CatalogItem:
     def getHashContents(self):
         return None
 
+    def setDeliveryTime(self, time):
+        self.deliveryDate = time
+
     def __cmp__(self, other):
         c = cmp(self.__class__, other.__class__)
         if c != 0:

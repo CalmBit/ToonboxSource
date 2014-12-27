@@ -345,7 +345,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         if avatar.onGiftOrder.count(self) != 0:
             return 1
         if avatar.mailboxContents.count(self) != 0:
-            return 1
+            return 2
         if self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
             return 1
         str = ClothingTypes[self.clothingType][CTString]
@@ -353,20 +353,20 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         if self.isShirt():
             defn = ToonDNA.ShirtStyles[str]
             if dna.topTex == defn[0] and dna.topTexColor == defn[2][self.colorIndex][0] and dna.sleeveTex == defn[1] and dna.sleeveTexColor == defn[2][self.colorIndex][1]:
-                return 1
+                return 3
             l = avatar.clothesTopsList
             for i in xrange(0, len(l), 4):
                 if l[i] == defn[0] and l[i + 1] == defn[2][self.colorIndex][0] and l[i + 2] == defn[1] and l[i + 3] == defn[2][self.colorIndex][1]:
-                    return 1
+                    return 4
 
         else:
             defn = ToonDNA.BottomStyles[str]
             if dna.botTex == defn[0] and dna.botTexColor == defn[1][self.colorIndex]:
-                return 1
+                return 3
             l = avatar.clothesBottomsList
             for i in xrange(0, len(l), 2):
                 if l[i] == defn[0] and l[i + 1] == defn[1][self.colorIndex]:
-                    return 1
+                    return 4
 
         return 0
 

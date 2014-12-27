@@ -8,3 +8,5 @@ RedeemErrorStrings = {RedeemErrors.Success: 'Success',
  RedeemErrors.TooManyAttempts: 'Too many attempts, code ignored',
  RedeemErrors.SystemUnavailable: 'Code redemption is currently unavailable'}
 MaxCustomCodeLen = config.GetInt('tt-max-custom-code-len', 16)
+MaxCodeAttempts = 5
+CodeWaitTime = 2

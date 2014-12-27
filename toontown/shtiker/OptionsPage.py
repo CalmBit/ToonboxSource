@@ -11,6 +11,9 @@ from otp.speedchat import SCStaticTextTerminal
 from otp.speedchat import SpeedChat
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
+from toontown.coderedemption.TTCodeRedemptionConsts import *
+
+import time
 
 
 speedChatStyles = (
@@ -558,6 +561,7 @@ class CodesTabPage(DirectFrame):
 
     def __init__(self, parent = aspect2d):
         self.parent = parent
+        self.codeWaitTime = None
         DirectFrame.__init__(self, parent=self.parent, relief=None, pos=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0))
         self.load()
         return
@@ -600,7 +604,11 @@ class CodesTabPage(DirectFrame):
         localAvatar.chatMgr.fsm.request('otherDialog')
         self.codeInput['focus'] = 1
         self.codeInput.enterText('')
-        self.__enableCodeEntry()
+        if self.codeWaitTime is None or self.codeWaitTime <= int(time.time()/60):
+            self.codeWaitTime = None
+            self.__enableCodeEntry()
+        else:
+            self.__getCodeResult(5, 0)
 
     def exit(self):
         self.resultPanel.hide()
@@ -671,7 +679,9 @@ class CodesTabPage(DirectFrame):
             elif awardMgrResult == 12 or awardMgrResult == 13 or awardMgrResult == 14:
                 self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyReceived
         elif result == 5:
-            self.resultPanel['text'] = TTLocalizer.CdrResultTooManyFails
+            self.resultPanel['text'] = TTLocalizer.CdrResultTooManyFails % CodeWaitTime
+            if self.codeWaitTime is None:
+                self.codeWaitTime = int(time.time()/60) + CodeWaitTime
             self.__disableCodeEntry()
         elif result == 6:
             self.resultPanel['text'] = TTLocalizer.CdrResultServiceUnavailable
