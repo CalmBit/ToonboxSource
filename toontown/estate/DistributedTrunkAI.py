@@ -52,14 +52,14 @@ class DistributedTrunkAI(DistributedClosetAI):
     def removeItem(self, itemIdx, textureIdx, colorIdx, which):
         avId = self.air.getAvatarIdFromSender()
         if avId != self.furnitureMgr.ownerId:
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to remove item from someone else\'s closet!')
+            self.air.writeServerEventMessage('suspicious', avId=avId, issue='Tried to remove item from someone else\'s closet!')
             return
         if avId != self.avId:
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to remove item while not interacting with closet!')
+            self.air.writeServerEventMessage('suspicious', avId=avId, issue='Tried to remove item while not interacting with closet!')
             return
         av = self.air.doId2do.get(avId)
         if not av:
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to interact with a closet from another shard!')
+            self.air.writeServerEventMessage('suspicious', avId=avId, issue='Tried to interact with a closet from another shard!')
             return
 
         if which == HAT:
@@ -74,14 +74,14 @@ class DistributedTrunkAI(DistributedClosetAI):
     def setDNA(self, hatIdx, hatTexture, hatColor, glassesIdx, glassesTexture, glassesColor, backpackIdx, backpackTexture, backpackColor, shoesIdx, shoesTexture, shoesColor, finished, which):
         avId = self.air.getAvatarIdFromSender()
         if avId != self.avId:
-            self.air.writeServerEvent('suspicious', avId, 'Tried to set DNA from closet while not using it!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to set DNA from closet while not using it!')
             return
         av = self.air.doId2do.get(avId)
         if not av:
-            self.air.writeServerEvent('suspicious', avId, 'Interacted with a closet from another shard!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Interacted with a closet from another shard!')
             return
         if not self.__verifyAvatarInMyZone(av):
-            self.air.writeServerEvent('suspicious', avId, 'Tried to setDNA while in another zone!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to setDNA while in another zone!')
             return
         if not finished:
             # They changed one of their accessories.
@@ -114,7 +114,7 @@ class DistributedTrunkAI(DistributedClosetAI):
             # They are done using the trunk. Update their removed items.
             # Is the user actually the owner?
             if avId != self.furnitureMgr.ownerId:
-                self.air.writeServerEvent('suspicious', avId, 'Tried to set their clothes from somebody else\'s closet!')
+                self.air.writeServerEventMessage('suspicious', avId, 'Tried to set their clothes from somebody else\'s closet!')
                 return
 
             # Put on the accessories they want...
@@ -159,15 +159,15 @@ class DistributedTrunkAI(DistributedClosetAI):
         avId = self.air.getAvatarIdFromSender()
         if self.avId:
             if self.avId == avId:
-                self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to use closet twice!')
+                self.air.writeServerEventMessage('suspicious', avId=avId, issue='Tried to use closet twice!')
             self.sendUpdateToAvatarId(avId, 'freeAvatar', [])
             return
         av = self.air.doId2do.get(avId)
         if not av:
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Not in same shard as closet!')
+            self.air.writeServerEventMessage('suspicious', avId=avId, issue='Not in same shard as closet!')
             return
         if not self.__verifyAvatarInMyZone(av):
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Not in same zone as closet!')
+            self.air.writeServerEventMessage('suspicious', avId=avId, issue='Not in same zone as closet!')
             return
         self.avId = avId
         self.setState(ClosetGlobals.OPEN, avId, self.furnitureMgr.ownerId, self.gender, self.hatList, self.glassesList, self.backpackList, self.shoesList)

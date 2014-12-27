@@ -364,7 +364,7 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
         """
         if reason not in ('hacking', 'language', 'other'):
             return False
-        self.air.writeServerEvent('ban', userId, duration, reason)
+        self.air.writeServerEventMessage('ban', userId, duration, reason)
         if duration > 0:
             now = datetime.date.today()
             release = str(now + datetime.timedelta(hours=duration))

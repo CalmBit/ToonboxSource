@@ -109,7 +109,7 @@ class DistributedMintRoomAI(DistributedLevelAI.DistributedLevelAI, MintRoomBase.
 
         description = '%s|%s' % (self.mintId, activeVictorIds)
         for avId in activeVictorIds:
-            self.air.writeServerEvent('mintDefeated', avId, description)
+            self.air.writeServerEventMessage('mintDefeated', avId, description)
 
         for toon in activeVictors:
             simbase.air.questManager.toonDefeatedMint(toon, self.mintId, activeVictors)

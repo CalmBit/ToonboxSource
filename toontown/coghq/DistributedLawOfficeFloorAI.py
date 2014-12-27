@@ -62,7 +62,7 @@ class DistributedLawOfficeFloorAI(DistributedLevelAI.DistributedLevelAI, LawOffi
         scenario = 0
         description = '%s|%s|%s|%s' % (self.lawOfficeId, self.entranceId, scenario, self.avIdList)
         for avId in self.avIdList:
-            self.air.writeServerEvent('DAOffice Entered', avId, description)
+            self.air.writeServerEventMessage('DAOffice Entered', avId, description)
         self.notify.info('finish factory %s %s creation' % (self.lawOfficeId, self.doId))
 
     def delete(self):
@@ -108,7 +108,7 @@ class DistributedLawOfficeFloorAI(DistributedLevelAI.DistributedLevelAI, LawOffi
         scenario = 0
         description = '%s|%s|%s|%s' % (self.lawOfficeId, self.entranceId, scenario, activeVictorIds)
         for avId in activeVictorIds:
-            self.air.writeServerEvent('DAOffice Defeated', avId, description)
+            self.air.writeServerEventMessage('DAOffice Defeated', avId, description)
         for toon in activeVictors:
             simbase.air.questManager.toonDefeatedFactory(toon, self.lawOfficeId, activeVictors)
 

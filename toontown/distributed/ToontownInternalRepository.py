@@ -1,5 +1,8 @@
 from direct.distributed.AstronInternalRepository import AstronInternalRepository
+from direct.directnotify import Logger
 from otp.distributed.OtpDoGlobals import *
+
+import datetime
 
 class ToontownInternalRepository(AstronInternalRepository):
     GameGlobalsId = OTP_DO_ID_TOONTOWN
@@ -15,6 +18,15 @@ class ToontownInternalRepository(AstronInternalRepository):
         self.netMessenger.register(1, 'queryShardStatus')
         self.netMessenger.register(2, 'startInvasion')
         self.netMessenger.register(3, 'stopInvasion')
+        self.dt = datetime.datetime.now()
+        self.log = Logger.Logger('.\\astron\\logs\\log-%s' % dcSuffix)
+
+
+    def writeServerEventMessage(self, category, id, *args):
+        msg = ''
+        for c,thing in enumerate(args):
+            msg += str(thing) + ' '
+        self.log.log("%s,%d: %s" % (category,id,msg))
 
     def getAvatarIdFromSender(self):
         return self.getMsgSender() & 0xFFFFFFFF

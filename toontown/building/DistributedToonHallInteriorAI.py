@@ -14,7 +14,7 @@ class DistributedToonHallInteriorAI(DistributedToonInteriorAI):
             phase = 'not available'
         else:
             phase = str(result)
-        self.air.writeServerEvent('sillyMeter', avId, 'enter|%s' % phase)
+        self.air.writeServerEventMessage('sillyMeter', avId, 'enter|%s' % phase)
 
     def logToonLeft(self, avId, zoneId):
         result = self.getCurPhase()
@@ -22,7 +22,7 @@ class DistributedToonHallInteriorAI(DistributedToonInteriorAI):
             phase = 'not available'
         else:
             phase = str(result)
-        self.air.writeServerEvent('sillyMeter', avId, 'exit|%s' % phase)
+        self.air.writeServerEventMessage('sillyMeter', avId, 'exit|%s' % phase)
 
     def getCurPhase(self):
         result = -1

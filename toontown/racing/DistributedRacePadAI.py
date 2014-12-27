@@ -134,7 +134,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
                 av = self.air.doId2do[avId]
                 entryFee = RaceGlobals.getEntryFee(self.trackId, self.trackType)
                 if av.getTickets() < entryFee:
-                    self.air.writeServerEvent('suspicious', avId, 'Toon somehow lost tickets between entering a race and it leaving!')
+                    self.air.writeServerEventMessage('suspicious', avId, 'Toon somehow lost tickets between entering a race and it leaving!')
                     av.b_setTickets(0)
                 else:
                     av.b_setTickets(av.getTickets() - entryFee)

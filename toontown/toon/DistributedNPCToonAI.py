@@ -49,7 +49,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
             return
         if self.pendingQuests is None:
             self.notify.warning('chooseQuest: not expecting a quest choice from this avatar: %s' % avId)
-            self.air.writeServerEvent('suspicious', avId, 'unexpected chooseQuest')
+            self.air.writeServerEventMessage('suspicious', avId, 'unexpected chooseQuest')
             return
         if questId == 0:
             self.pendingAvId = None
@@ -84,7 +84,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
             return
         if self.pendingTracks is None:
             self.notify.warning('chooseTrack: not expecting a track choice from this avatar: %s' % avId)
-            self.air.writeServerEvent('suspicious', avId, 'unexpected chooseTrack')
+            self.air.writeServerEventMessage('suspicious', avId, 'unexpected chooseTrack')
             return
         if trackId == -1:
             self.pendingAvId = None
@@ -258,7 +258,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
             self.clearTasks()
             self.sendClearMovie(None)
         elif self.busy:
-            self.air.writeServerEvent('suspicious', avId, 'DistributedNPCToonAI.setMovieDone busy with %s' % self.busy)
+            self.air.writeServerEventMessage('suspicious', avId, 'DistributedNPCToonAI.setMovieDone busy with %s' % self.busy)
             self.notify.warning('somebody called setMovieDone that I was not busy with! avId: %s' % avId)
         return
 

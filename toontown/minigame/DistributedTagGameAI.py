@@ -89,7 +89,7 @@ class DistributedTagGameAI(DistributedMinigameAI):
 
     def treasureGrabCallback(self, avId):
         if avId not in self.avIdList:
-            self.air.writeServerEvent('suspicious', avId, 'TagGameAI.treasureGrabCallback non-player avId')
+            self.air.writeServerEventMessage('suspicious', avId, 'TagGameAI.treasureGrabCallback non-player avId')
             return
         self.treasureScores[avId] += 2
         self.notify.debug('treasureGrabCallback: ' + str(avId) + ' grabbed a treasure, new score: ' + str(self.treasureScores[avId]))
@@ -107,7 +107,7 @@ class DistributedTagGameAI(DistributedMinigameAI):
     def tag(self, taggedAvId):
         taggedAvatar = simbase.air.doId2do.get(taggedAvId)
         if taggedAvatar == None:
-            self.air.writeServerEvent('suspicious', taggedAvId, 'TagGameAI.tag invalid taggedAvId')
+            self.air.writeServerEventMessage('suspicious', taggedAvId, 'TagGameAI.tag invalid taggedAvId')
             return
         itAvId = self.air.getAvatarIdFromSender()
         if self.tagBack:

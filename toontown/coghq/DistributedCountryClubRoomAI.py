@@ -106,7 +106,7 @@ class DistributedCountryClubRoomAI(DistributedLevelAI.DistributedLevelAI, Countr
                 activeVictorIds.append(victorId)
         description = '%s|%s' % (self.countryClubId, activeVictorIds)
         for avId in activeVictorIds:
-            self.air.writeServerEvent('mintDefeated', avId, description)
+            self.air.writeServerEventMessage('mintDefeated', avId, description)
 
     def b_setDefeated(self):
         self.d_setDefeated()

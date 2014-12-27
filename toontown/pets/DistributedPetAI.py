@@ -578,9 +578,9 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
                 myTaskName = task.name
             if hasattr(self, 'destroyDoStackTrace'):
                 myOldStackTrace = self.destroyDoStackTrace.trace
-            simbase.air.writeServerEvent('Pet RequestDelete duplicate', myDoId, 'from task %s' % myTaskName)
-            simbase.air.writeServerEvent('Pet RequestDelete duplicate StackTrace', myDoId, '%s' % myStackTrace)
-            simbase.air.writeServerEvent('Pet RequestDelete duplicate OldStackTrace', myDoId, '%s' % myOldStackTrace)
+            simbase.air.writeServerEventMessage('Pet RequestDelete duplicate', myDoId, 'from task %s' % myTaskName)
+            simbase.air.writeServerEventMessage('Pet RequestDelete duplicate StackTrace', myDoId, '%s' % myStackTrace)
+            simbase.air.writeServerEventMessage('Pet RequestDelete duplicate OldStackTrace', myDoId, '%s' % myOldStackTrace)
             DistributedPetAI.notify.warning('double requestDelete from task %s' % myTaskName)
         self.setParent(ToontownGlobals.SPHidden)
         if hasattr(self, 'activated'):
@@ -685,7 +685,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
     def move(self, task = None):
         if self.isEmpty():
             try:
-                self.air.writeServerEvent('Late Pet Move Call', self.doId, ' ')
+                self.air.writeServerEventMessage('Late Pet Move Call', self.doId, ' ')
             except:
                 pass
 
@@ -961,7 +961,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
 
     def handleAvPetInteraction(self, mode, avId):
         if mode not in (PetConstants.PET_MOVIE_SCRATCH, PetConstants.PET_MOVIE_FEED, PetConstants.PET_MOVIE_CALL):
-            self.air.writeServerEvent('suspicious', avId, 'DistributedPetAI: unknown mode: %s' % mode)
+            self.air.writeServerEventMessage('suspicious', avId, 'DistributedPetAI: unknown mode: %s' % mode)
             return
         if self.avatarInteract(avId):
             self.notify.debug('handleAvPetInteraction() avatarInteract calling callback')

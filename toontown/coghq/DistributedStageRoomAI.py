@@ -113,7 +113,7 @@ class DistributedStageRoomAI(DistributedLevelAI.DistributedLevelAI, StageRoomBas
                 continue
         description = '%s|%s' % (self.stageId, activeVictorIds)
         for avId in activeVictorIds:
-            self.air.writeServerEvent('stageDefeated', avId, description)
+            self.air.writeServerEventMessage('stageDefeated', avId, description)
         for toon in activeVictors:
             simbase.air.questManager.toonDefeatedStage(toon, self.stageId, activeVictors)
 

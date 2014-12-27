@@ -45,7 +45,7 @@ class DistributedCountryClubAI(DistributedObjectAI.DistributedObjectAI):
             simbase.countryClub = self
         description = '%s|%s|%s' % (self.countryClubId, self.floorNum, self.avIds)
         for avId in self.avIds:
-            self.air.writeServerEvent('countryClubEntered', avId, description)
+            self.air.writeServerEventMessage('countryClubEntered', avId, description)
 
     def requestDelete(self):
         self.notify.info('requestDelete: %s' % self.doId)

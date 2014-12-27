@@ -50,6 +50,7 @@ from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
 from toontown.tutorial.TutorialManagerAI import TutorialManagerAI
 from toontown.uberdog.DistributedPartyManagerAI import DistributedPartyManagerAI
+from otp.distributed.CentralLoggerAI import CentralLoggerAI
 
 
 class ToontownAIRepository(ToontownInternalRepository):
@@ -186,7 +187,6 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.districtStats.generateWithRequiredAndId(
             self.allocateChannel(), self.getGameDoId(), 3)
         self.notify.info('Created ToontownDistrictStats(%d)' % self.districtStats.doId)
-
         self.notify.info('Creating managers...')
         self.createManagers()
         if self.config.GetBool('want-safe-zones', True):
@@ -195,6 +195,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         if self.config.GetBool('want-cog-headquarters', True):
             self.notify.info('Creating Cog headquarters...')
             self.createCogHeadquarters()
+        self.notify.info('Setting up cog invasions...')
+        self.suitInvasionManager.handleInvasions()
 
         self.notify.info('Making district available...')
         self.distributedDistrict.b_setAvailable(1)

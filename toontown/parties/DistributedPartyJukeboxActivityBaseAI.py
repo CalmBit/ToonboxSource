@@ -23,12 +23,12 @@ class DistributedPartyJukeboxActivityBaseAI(DistributedPartyActivityAI):
         avId = self.air.getAvatarIdFromSender()
         phase = self.music.get(song[0])
         if avId != self.currentToon:
-            self.air.writeServerEvent('suspicious',avId,'Toon tried to set song without using the jukebox!')
+            self.air.writeServerEventMessage('suspicious',avId,'Toon tried to set song without using the jukebox!')
         if not phase:
-            self.air.writeServerEvent('suspicious',avId,'Toon supplied invalid phase for song!')
+            self.air.writeServerEventMessage('suspicious',avId,'Toon supplied invalid phase for song!')
             return
         if song[1] not in phase:
-            self.air.writeServerEvent('suspicious',avId,'Toon supplied invalid song name!')
+            self.air.writeServerEventMessage('suspicious',avId,'Toon supplied invalid song name!')
             return
         if avId in self.owners:
             self.queue[self.owners.index(avId)] = song
@@ -110,13 +110,13 @@ class DistributedPartyJukeboxActivityBaseAI(DistributedPartyActivityAI):
     def moveHostSongToTopRequest(self):
         avId = self.air.getAvatarIdFromSender()
         if avId != self.currentToon:
-            self.air.writeServerEvent('suspicious',avId,'Toon tried to set song without using the jukebox!')
+            self.air.writeServerEventMessage('suspicious',avId,'Toon tried to set song without using the jukebox!')
         host = self.air.doId2do[self.parent].hostId
         if avId != host:
-            self.air.writeServerEvent('suspicious',avId,'Toon tried to move the host\'s song to the top!')
+            self.air.writeServerEventMessage('suspicious',avId,'Toon tried to move the host\'s song to the top!')
             return
         if not host in self.owners:
-            self.air.writeServerEvent('suspicious',avId,'Host tried to move non-existent song to the top of the queue!')
+            self.air.writeServerEventMessage('suspicious',avId,'Host tried to move non-existent song to the top of the queue!')
             return
         index = self.owners.index(host)
 

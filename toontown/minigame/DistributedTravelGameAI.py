@@ -62,7 +62,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
             curVotesList.append(self.currentVotes[avId])
             bonusesList.append((self.avIdBonuses[avId][0], self.avIdBonuses[avId][1]))
 
-        self.air.writeServerEvent('minigame_travel', self.doId, '%s|%s|%s|%s|%s|%s|%s|%s' % (ToontownGlobals.TravelGameId,
+        self.air.writeServerEventMessage('minigame_travel', self.doId, '%s|%s|%s|%s|%s|%s|%s|%s' % (ToontownGlobals.TravelGameId,
          self.getSafezoneId(),
          self.avIdList,
          scoreList,

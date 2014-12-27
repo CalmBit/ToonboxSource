@@ -211,7 +211,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                     self.groupListDict[leaderId] = groupList
                     if inviteeId in self.avIdDict:
                         self.notify.warning('inviter %s tried to invite %s who already exists in the avIdDict.' % (inviterId, inviteeId))
-                        self.air.writeServerEvent('suspicious: inviter', inviterId, ' tried to invite %s who already exists in the avIdDict.' % inviteeId)
+                        self.air.writeServerEventMessage('suspicious: inviter', inviterId, ' tried to invite %s who already exists in the avIdDict.' % inviteeId)
                     self.avIdDict[inviteeId] = leaderId
                     self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId, False])
                     # notify everybody of the invitation..
@@ -227,7 +227,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
             # while... 
             if inviteeId in self.avIdDict:
                 self.notify.warning('inviter %s tried to invite %s who already exists in avIdDict.' % (inviterId, inviteeId))
-                self.air.writeServerEvent('suspicious: inviter', inviterId, ' tried to invite %s who already exists in the avIdDict.' % inviteeId)
+                self.air.writeServerEventMessage('suspicious: inviter', inviterId, ' tried to invite %s who already exists in the avIdDict.' % inviteeId)
             self.notify.debug('new group')
             # The inviter is now the leader of the new group
             leaderId = inviterId
@@ -318,7 +318,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                         self.notify.debug('invitee already in group, aborting requestAcceptInvite')
                         return
                 else:
-                    self.air.writeServerEvent('suspicious: ', inviteeId, " accepted a second invite from %s, in %s's group, while he was in alredy in %s's group." % (inviterId, leaderId, self.avIdDict[inviteeId]))
+                    self.air.writeServerEventMessage('suspicious: ', inviteeId, " accepted a second invite from %s, in %s's group, while he was in alredy in %s's group." % (inviterId, leaderId, self.avIdDict[inviteeId]))
                     self.removeFromGroup(self.avIdDict[inviteeId], inviteeId, post=0)
             if len(memberList) >= self.maxSize:
                 self.removeFromGroup(leaderId, inviteeId)
@@ -328,7 +328,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
             self.sendUpdateToAvatarId(inviterId, 'postInviteAccepted', [inviteeId])
             self.addToGroup(leaderId, inviteeId)
         else:
-            self.air.writeServerEvent('suspicious: ', inviteeId, " was invited to %s's group by %s, but the invitee didn't have an entry in the avIdDict." % (leaderId, inviterId))
+            self.air.writeServerEventMessage('suspicious: ', inviteeId, " was invited to %s's group by %s, but the invitee didn't have an entry in the avIdDict." % (leaderId, inviterId))
 
     def requestRejectInvite(self, leaderId, inviterId):
         inviteeId = self.air.getAvatarIdFromSender()
@@ -424,7 +424,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                                     if avatar:
                                         elevator.partyAvatarBoard(avatar, wantBoardingShow=1)
 
-                            self.air.writeServerEvent('boarding_elevator', self.zoneId, '%s; Sending avatars %s' % (elevatorId, group[0]))
+                            self.air.writeServerEventMessage('boarding_elevator', self.zoneId, '%s; Sending avatars %s' % (elevatorId, group[0]))
                         else:
                             self.sendUpdateToAvatarId(leaderId, 'postRejectBoard', [elevatorId,
                              boardOkay,
@@ -451,7 +451,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                                 return True
                             else:
                                 self.notify.warning('avId: %s has hacked his/her client.' % leaderId)
-                                self.air.writeServerEvent('suspicious: ', leaderId, ' pressed the GO Button while inside the elevator.')
+                                self.air.writeServerEventMessage('suspicious: ', leaderId, ' pressed the GO Button while inside the elevator.')
                         else:
                             self.sendUpdateToAvatarId(leaderId, 'rejectGoToRequest', [elevatorId,
                              boardOkay,
@@ -484,12 +484,12 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                     boardOkay, avatarsFailingRequirements, avatarsInBattle = self.testBoard(avList[0], elevatorId, needSpace=0)
                     if not boardOkay == BoardingPartyBase.BOARDCODE_OKAY:
                         for avId in avatarsFailingRequirements:
-                            self.air.writeServerEvent('suspicious: ', avId, ' failed requirements after the second go button request.')
+                            self.air.writeServerEventMessage('suspicious: ', avId, ' failed requirements after the second go button request.')
 
                         for avId in avatarsInBattle:
-                            self.air.writeServerEvent('suspicious: ', avId, ' joined battle after the second go button request.')
+                            self.air.writeServerEventMessage('suspicious: ', avId, ' joined battle after the second go button request.')
 
-                    self.air.writeServerEvent('boarding_go', self.zoneId, '%s; Sending avatars %s' % (elevatorId, avList))
+                    self.air.writeServerEventMessage('boarding_go', self.zoneId, '%s; Sending avatars %s' % (elevatorId, avList))
                     elevator.sendAvatarsToDestination(avList)
         return Task.done
 
@@ -588,7 +588,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
     def informDestinationInfo(self, offset):
         leaderId = self.air.getAvatarIdFromSender()
         if offset > len(self.elevatorIdList):
-            self.air.writeServerEvent('suspicious: ', leaderId, 'has requested to go to %s elevator which does not exist' % offset)
+            self.air.writeServerEventMessage('suspicious: ', leaderId, 'has requested to go to %s elevator which does not exist' % offset)
             return
         memberList = self.getGroupMemberList(leaderId)
         for avId in memberList:

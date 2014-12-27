@@ -152,7 +152,7 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
         party = self.id2Party.get(partyId, None)
         self.sendToAv(party['hostId'], 'setHostedParties', [[self._formatParty(party)]])
         del self.id2Party[partyId]
-        self.air.writeServerEvent('party-done', '%s')
+        self.air.writeServerEventMessage('party-done', '%s')
 
     def toonJoinedParty(self, partyId, avId):
         if avId in self.tempSlots:

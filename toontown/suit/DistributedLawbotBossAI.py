@@ -446,7 +446,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
                 self.numToonJurorsSeated += 1
 
         self.notify.debug('numToonJurorsSeated=%d' % self.numToonJurorsSeated)
-        self.air.writeServerEvent('jurorsSeated', self.doId, '%s|%s|%s' % (self.dept, self.involvedToons, self.numToonJurorsSeated))
+        self.air.writeServerEventMessage('jurorsSeated', self.doId, '%s|%s|%s' % (self.dept, self.involvedToons, self.numToonJurorsSeated))
         self.__deleteCannons()
         self.__stopChairs()
 
@@ -488,7 +488,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
          self.numGavels,
          self.numLawyers,
          self.toonupValue))
-        self.air.writeServerEvent('lawbotBossSettings', self.doId, '%s|%s|%s|%s|%s|%s' % (self.dept,
+        self.air.writeServerEventMessage('lawbotBossSettings', self.doId, '%s|%s|%s|%s|%s|%s' % (self.dept,
          self.battleDifficulty,
          self.ammoCount,
          self.numGavels,
@@ -596,7 +596,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
                 self.numToonsAtEnd += 1
                 toonHps.append(toon.hp)
 
-        self.air.writeServerEvent('b3Info', self.doId, '%d|%.2f|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|%s|%s' % (didTheyWin,
+        self.air.writeServerEventMessage('b3Info', self.doId, '%d|%.2f|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|%s|%s' % (didTheyWin,
          self.battleThreeTimeInMin,
          self.numToonsAtStart,
          self.numToonsAtEnd,

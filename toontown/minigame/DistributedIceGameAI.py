@@ -314,7 +314,7 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
              self.avIdList))
             return
         if treasureNum < 0 or treasureNum >= self.numTreasures:
-            self.air.writeServerEvent('warning', treasureNum, 'MazeGameAI.claimTreasure treasureNum out of range')
+            self.air.writeServerEventMessage('warning', treasureNum, 'MazeGameAI.claimTreasure treasureNum out of range')
             return
         if self.takenTreasuresTable[treasureNum]:
             return
@@ -335,7 +335,7 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
              self.avIdList))
             return
         if penaltyNum < 0 or penaltyNum >= self.numPenalties:
-            self.air.writeServerEvent('warning', penaltyNum, 'IceGameAI.claimPenalty penaltyNum out of range')
+            self.air.writeServerEventMessage('warning', penaltyNum, 'IceGameAI.claimPenalty penaltyNum out of range')
             return
         if self.takenPenaltiesTable[penaltyNum]:
             return

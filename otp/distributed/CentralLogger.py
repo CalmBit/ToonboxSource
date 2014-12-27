@@ -12,6 +12,9 @@ ReportHacking = 'hacking'
 class CentralLogger(DistributedObjectGlobal):
     PlayersReportedThisSession = {}
 
+    def __init__(self, cr):
+        DistributedObjectGlobal.__init__(self, cr)
+
     def hasReportedPlayer(self, targetDISLId, targetAvId):
         return (targetDISLId, targetAvId) in self.PlayersReportedThisSession
 

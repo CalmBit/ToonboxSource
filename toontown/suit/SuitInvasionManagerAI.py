@@ -1,12 +1,18 @@
 import time
 
+from direct.directnotify import DirectNotifyGlobal
+
 from toontown.battle import SuitBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit.SuitInvasionGlobals import *
 from toontown.toonbase import ToontownGlobals
+from toontown.battle import SuitBattleGlobals
+from toontown.toonbase import TTLocalizer
 
 
 class SuitInvasionManagerAI:
+    notify = DirectNotifyGlobal.directNotify.newCategory("SuitInvasionManagerAI")
+
     def __init__(self, air):
         self.air = air
 
@@ -17,6 +23,8 @@ class SuitInvasionManagerAI:
         self.suitDeptIndex = None
         self.suitTypeIndex = None
         self.flags = 0
+
+        self.notify.setInfo(True)
 
         self.air.netMessenger.accept(
             'startInvasion', self, self.handleStartInvasion)
@@ -35,38 +43,60 @@ class SuitInvasionManagerAI:
     def getInvadingCog(self):
         return (self.suitDeptIndex, self.suitTypeIndex, self.flags)
 
+    def handleInvasions(self):
+        if(self.air.holidayManager.isHolidayRunning(5)):
+            self.startInvasion(None,None,IFSkelecog,INVASION_TYPE_MEGA)
+        elif(self.air.holidayManager.isHolidayRunning(6)):
+            self.startInvasion(3,7,0,INVASION_TYPE_MEGA)
+        elif(self.air.holidayManager.isHolidayRunning(23)):
+            self.startInvasion(0,None,0,INVASION_TYPE_MEGA)
+        elif(self.air.holidayManager.isHolidayRunning(24)):
+            self.startInvasion(2,4,0,INVASION_TYPE_MEGA)
+        elif(self.air.holidayManager.isHolidayRunning(53)):
+            self.startInvasion(3,0,0,INVASION_TYPE_MEGA)
+        elif(self.air.holidayManager.isHolidayRunning(54)):
+            self.startInvasion(3,7,0,INVASION_TYPE_MEGA)
+
     def startInvasion(self, suitDeptIndex=None, suitTypeIndex=None, flags=0,
                       type=INVASION_TYPE_NORMAL):
         if self.invading:
             # An invasion is currently in progress; ignore this request.
+            self.notify.info("Attempted to start an invasion over a previous one: ignoring.")
             return False
 
         if (suitDeptIndex is None) and (suitTypeIndex is None) and (not flags):
             # This invasion is no-op.
+            self.notify.info("No-Op invasion: ignoring.")
             return False
 
-        if flags and ((suitDeptIndex is not None) or (suitTypeIndex is not None)):
+        #if flags and ((suitDeptIndex is not None) or (suitTypeIndex is not None)):
             # For invasion flags to be present, it must be a generic invasion.
-            return False
+            #self.notify.info("Invasion flags present with non-generic invasion: ignoring.")
+            #return False
 
         if (suitDeptIndex is None) and (suitTypeIndex is not None):
             # It's impossible to determine the invading Cog.
+            self.notify.info("Invasion passed with no cog info: ignoring.")
             return False
 
         if flags not in (0, IFV2, IFSkelecog, IFWaiter):
             # The provided flag combination is not possible.
+            self.notify.info("Invasion Passed with invalid flags: ignoring.")
             return False
 
         if (suitDeptIndex is not None) and (suitDeptIndex >= len(SuitDNA.suitDepts)):
             # Invalid suit department.
+            self.notify.info("Invasion passed with invalid department: ignoring.")
             return False
 
         if (suitTypeIndex is not None) and (suitTypeIndex >= SuitDNA.suitsPerDept):
             # Invalid suit type.
+            self.notify.info("Invasion passed with invalid suit type: ignoring.")
             return False
 
         if type not in (INVASION_TYPE_NORMAL, INVASION_TYPE_MEGA):
             # Invalid invasion type.
+            self.notify.info("Invasion passed with invalid invasion type: ignoring.")
             return False
 
         # Looks like we're all good. Begin the invasion:
@@ -97,6 +127,11 @@ class SuitInvasionManagerAI:
         if type == INVASION_TYPE_NORMAL:
             timeout = config.GetInt('invasion-timeout', 1800)
             taskMgr.doMethodLater(timeout, self.stopInvasion, 'invasionTimeout')
+
+
+        suitNamePlural = SuitBattleGlobals.SuitAttributes[self.getSuitName()]['pluralname']
+        self.notify.info(TTLocalizer.SuitInvasionBegin1)
+        self.notify.info(TTLocalizer.SuitInvasionBegin2 % suitNamePlural)
 
         self.sendInvasionStatus()
         return True

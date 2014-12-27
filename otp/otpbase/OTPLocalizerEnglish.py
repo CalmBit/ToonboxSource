@@ -425,7 +425,7 @@ FriendInviterIgnored = '%s is ignoring you.'
 FriendInviterAsking = 'Asking %s to be your friend.'
 FriendInviterFriendSaidYes = 'You are now friends with %s!'
 FriendInviterPlayerFriendSaidYes = "You are now friends with %s's player, %s!"
-FriendInviterFriendSaidNo = '%s has declined your friend request.'
+FriendInviterFriendSaidNo = '%s says no thanks.'
 FriendInviterFriendSaidNoNewFriends = "%s isn't looking for new friends right now."
 FriendInviterOtherTooMany = '%s has too many friends already!'
 FriendInviterMaybe = '%s was unable to answer.'
@@ -530,8 +530,8 @@ SuitBrushOffs = {'f': ["I'm late for a meeting."],
         'Have your people call my people.',
         "You're in no position to meet with me.",
         'Talk to my assistant.',
-        "I'll pretend I don't see you Toon.",
-        "There's a restraining order coming your way"]}
+        "I'll pretend I don't see you, Toon.",
+        "There's a restraining order coming your way."]}
 SuitFaceoffTaunts = {'b': ['Do you have a donation for me?',
        "I'm going to make you a sore loser.",
        "I'm going to leave you high and dry.",

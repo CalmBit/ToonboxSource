@@ -43,7 +43,7 @@ class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
             simbase.stage = self
         description = '%s|%s|%s' % (self.stageId, self.floorNum, self.avIds)
         for avId in self.avIds:
-            self.air.writeServerEvent('stageEntered', avId, description)
+            self.air.writeServerEventMessage('stageEntered', avId, description)
 
     def requestDelete(self):
         self.notify.info('requestDelete: %s' % self.doId)

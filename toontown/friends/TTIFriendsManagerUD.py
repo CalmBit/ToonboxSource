@@ -327,7 +327,7 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
         if toId not in self.tpRequests:
             return
         if self.tpRequests.get(toId) != fromId:
-            self.air.writeServerEvent('suspicious', fromId, 'toon tried to send teleportResponse for a query that isn\'t theirs!')
+            self.air.writeServerEventMessage('suspicious', fromId, 'toon tried to send teleportResponse for a query that isn\'t theirs!')
             return
         self.sendUpdateToAvatarId(toId, 'setTeleportResponse', [fromId, available, shardId, hoodId, zoneId])
         del self.tpRequests[toId]
@@ -375,7 +375,7 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
                 return
         self.whisperRequests[fromId] = currStamp
         self.sendUpdateToAvatarId(toId, 'receiveTalkWhisper', [fromId, message])
-        self.air.writeServerEvent('whisper-said', fromId, toId, message)
+        self.air.writeServerEventMessage('whisper-said', fromId, toId, message)
 
     # -- Secret Friends --
     def requestSecret(self):

@@ -28,7 +28,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         avId = self.air.getAvatarIdFromSender()
         if self.avId:
             if self.avId == avId:
-                self.air.writeServerEvent('suspicious', avId, 'Tried to use a phone twice!')
+                self.air.writeServerEventMessage('suspicious', avId, 'Tried to use a phone twice!')
                 return
             self.sendUpdateToAvatarId(avId, 'freeAvatar', [])
             return
@@ -70,7 +70,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
     def avatarExit(self):
         avId = self.air.getAvatarIdFromSender()
         if avId != self.avId:
-            self.air.writeServerEvent('suspicious', avId, 'Tried to exit a phone they weren\'t using!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to exit a phone they weren\'t using!')
             return
 
         self.avId = None
@@ -86,20 +86,20 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
     def requestPurchaseMessage(self, context, item, optional):
         avId = self.air.getAvatarIdFromSender()
         if avId != self.avId:
-            self.air.writeServerEvent('suspicious', avId, 'Tried to purchase while not using the phone!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to purchase while not using the phone!')
             return
 
         av = self.air.doId2do.get(avId)
         if not av:
-            self.air.writeServerEvent('suspicious', avId, 'Used phone from other shard!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Used phone from other shard!')
             return
 
         item = CatalogItem.getItem(item)
         if isinstance(item, CatalogInvalidItem):
-            self.air.writeServerEvent('suspicious', avId, 'Tried to purchase invalid catalog item.')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to purchase invalid catalog item.')
             return
         if item.loyaltyRequirement():
-            self.air.writeServerEvent('suspicious', avId, 'Tried to purchase an unimplemented loyalty item!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to purchase an unimplemented loyalty item!')
             return
         if item in av.backCatalog:
             price = item.getPrice(CatalogItem.CatalogTypeBackorder)

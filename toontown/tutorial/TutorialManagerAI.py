@@ -146,7 +146,7 @@ class TutorialManagerAI(DistributedObjectAI):
         if fsm is not None:
             fsm.demand('Cleanup')
         else:
-            self.air.writeServerEvent('suspicious', avId, issue='Attempted to exit a non-existent tutorial.')
+            self.air.writeServerEventMessage('suspicious', avId, issue='Attempted to exit a non-existent tutorial.')
 
     def toonArrived(self):
         avId = self.air.getAvatarIdFromSender()
@@ -156,7 +156,7 @@ class TutorialManagerAI(DistributedObjectAI):
 
         if av.getTutorialAck():
             self.avId2fsm[avId].demand('Cleanup')
-            self.air.writeServerEvent('suspicious', avId, issue='Attempted to enter a tutorial when it should be impossible.')
+            self.air.writeServerEventMessage('suspicious', avId, issue='Attempted to enter a tutorial when it should be impossible.')
             return
 
         # Prepare the player for the tutorial:

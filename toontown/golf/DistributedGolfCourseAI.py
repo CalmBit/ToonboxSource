@@ -771,7 +771,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
                 for index in xrange(len(oldTrophies)):
                     if not oldTrophies[index] and endingTrophies[index]:
                         self.notify.debug('New Trophy %d' % index)
-                        self.air.writeServerEvent('golf_trophy', avId, '%s' % index)
+                        self.air.writeServerEventMessage('golf_trophy', avId, '%s' % index)
                         newTrophies.append(True)
                         self.trophyListLen = self.trophyListLen + 1
                     else:
@@ -793,7 +793,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
                     if not oldCups[index] and endingCups[index]:
                         self.notify.debug('New Trophy %d' % index)
                         newCups.append(True)
-                        self.air.writeServerEvent('golf_cup', avId, '%s' % index)
+                        self.air.writeServerEventMessage('golf_cup', avId, '%s' % index)
                         newMaxHp = av.getMaxHp() + 1
                         av.b_setMaxHp(newMaxHp)
                         av.toonUp(newMaxHp)
@@ -974,7 +974,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
                 strokes = scoreList[holeIndex]
                 if strokes == 1:
                     holeId = self.holeIds[holeIndex]
-                    self.air.writeServerEvent('golf_ace', avId, '%d|%d|%s' % (self.courseId, holeId, stillPlaying))
+                    self.air.writeServerEventMessage('golf_ace', avId, '%d|%d|%s' % (self.courseId, holeId, stillPlaying))
 
     def recordCourseUnderPar(self):
         coursePar = self.calcCoursePar()
@@ -983,7 +983,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
             totalScore = self.getTotalScore(avId)
             netScore = totalScore - coursePar
             if netScore < 0:
-                self.air.writeServerEvent('golf_underPar', avId, '%d|%d|%s' % (self.courseId, netScore, stillPlaying))
+                self.air.writeServerEventMessage('golf_underPar', avId, '%d|%d|%s' % (self.courseId, netScore, stillPlaying))
 
     def addAimTime(self, avId, aimTime):
         if avId in self.aimTimes:

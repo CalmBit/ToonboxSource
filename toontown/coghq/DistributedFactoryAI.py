@@ -54,7 +54,7 @@ class DistributedFactoryAI(DistributedLevelAI.DistributedLevelAI, FactoryBase.Fa
          scenario,
          self.avIdList)
         for avId in self.avIdList:
-            self.air.writeServerEvent('factoryEntered', avId, description)
+            self.air.writeServerEventMessage('factoryEntered', avId, description)
 
         self.notify.info('finish factory %s %s creation' % (self.factoryId, self.doId))
 
@@ -99,7 +99,7 @@ class DistributedFactoryAI(DistributedLevelAI.DistributedLevelAI, FactoryBase.Fa
         scenario = 0
         description = '%s|%s|%s|%s' % (self.factoryId, self.entranceId, scenario, activeVictorIds)
         for avId in activeVictorIds:
-            self.air.writeServerEvent('factoryDefeated', avId, description)
+            self.air.writeServerEventMessage('factoryDefeated', avId, description)
         for toon in activeVictors:
             simbase.air.questManager.toonDefeatedFactory(toon, self.factoryId, activeVictors)
 

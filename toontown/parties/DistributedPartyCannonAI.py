@@ -58,19 +58,19 @@ class DistributedPartyCannonAI(DistributedObjectAI):
             self.avId = 0
 
     def setFired(self):
-        self.air.writeServerEvent('suspicious',self.air.getAvatarIdFromSender(),'Toon tried to call unused setFired!')
+        self.air.writeServerEventMessage('suspicious',self.air.getAvatarIdFromSender(),'Toon tried to call unused setFired!')
 
     def setLanded(self, toonId):
         avId = self.air.getAvatarIdFromSender()
         if toonId != avId:
-            self.air.writeServerEvent('suspicious',avId,'Toon claimed to be another toon in cannon!')
+            self.air.writeServerEventMessage('suspicious',avId,'Toon claimed to be another toon in cannon!')
             return
         self.d_setMovie(PartyGlobals.CANNON_MOVIE_LANDED, avId)
 
     def setTimeout(self):
         avId = self.air.getAvatarIdFromSender()
         if avId != self.avId:
-            self.air.writeServerEvent('suspicious',avId,'Toon tried to start timer for someone else!')
+            self.air.writeServerEventMessage('suspicious',avId,'Toon tried to start timer for someone else!')
         taskMgr.doMethodLater(PartyGlobals.CANNON_TIMEOUT, self.__removeToon, 'removeToon%d' % self.doId, extraArgs=[avId])
         
         

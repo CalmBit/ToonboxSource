@@ -85,7 +85,7 @@ class DistributedPairingGameAI(DistributedMinigameAI):
                 self.logAllPerfect()
 
         logAvId = self.avIdList[0]
-        self.air.writeServerEvent('minigame_pairing', self.doId, '%s|%s|%s|%s|%s|%s|%s|%s' % (ToontownGlobals.PairingGameId,
+        self.air.writeServerEventMessage('minigame_pairing', self.doId, '%s|%s|%s|%s|%s|%s|%s|%s' % (ToontownGlobals.PairingGameId,
          self.getSafezoneId(),
          self.avIdList,
          self.scoreDict[logAvId],
@@ -182,13 +182,13 @@ class DistributedPairingGameAI(DistributedMinigameAI):
             return
         avId = self.air.getAvatarIdFromSender()
         if avId not in self.avIdList:
-            self.air.writeServerEvent('suspicious', avId, 'openCardRequest from non-player av %s' % avId)
+            self.air.writeServerEventMessage('suspicious', avId, 'openCardRequest from non-player av %s' % avId)
             return
         if deckOrderIndex < 0 or deckOrderIndex >= len(self.cards):
-            self.air.writeServerEvent('suspicious', avId, 'openCardRequest: invalid deckOrderIndex: %s' % deckOrderIndex)
+            self.air.writeServerEventMessage('suspicious', avId, 'openCardRequest: invalid deckOrderIndex: %s' % deckOrderIndex)
             return
         if bonusGlowCard < 0 or bonusGlowCard >= len(self.cards):
-            self.air.writeServerEvent('suspicious', avId, 'openCardRequest: invalid bonusGlowCard: %s' % bonusGlowCard)
+            self.air.writeServerEventMessage('suspicious', avId, 'openCardRequest: invalid bonusGlowCard: %s' % bonusGlowCard)
             return
         cardsToTurnDown = []
         faceUpList = self.faceUpDict[avId]

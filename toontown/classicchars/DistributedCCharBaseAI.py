@@ -33,7 +33,7 @@ class DistributedCCharBaseAI(DistributedAvatarAI.DistributedAvatarAI):
         if avId not in self.nearbyAvatars:
             self.nearbyAvatars.append(avId)
         else:
-            self.air.writeServerEvent('suspicious', avId, 'CCharBase.avatarEnter')
+            self.air.writeServerEventMessage('suspicious', avId, 'CCharBase.avatarEnter')
             self.notify.warning('Avatar %s already in nearby avatars!' % avId)
         self.nearbyAvatarInfoDict[avId] = { }
         self.nearbyAvatarInfoDict[avId]['enterTime'] = globalClock.getRealTime()

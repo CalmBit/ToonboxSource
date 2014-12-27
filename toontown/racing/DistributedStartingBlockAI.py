@@ -48,7 +48,7 @@ class DistributedStartingBlockAI(DistributedObjectAI):
             return
         if self.avId != 0:
             if self.avId == avId:
-                self.air.writeServerEvent('suspicious', avId, 'Toon tried to board the same starting block twice!')
+                self.air.writeServerEventMessage('suspicious', avId, 'Toon tried to board the same starting block twice!')
             self.sendUpdateToAvatarId(avId, 'rejectEnter', [KartGlobals.ERROR_CODE.eOccupied])
             return
         self.b_setOccupied(avId)
@@ -60,7 +60,7 @@ class DistributedStartingBlockAI(DistributedObjectAI):
     def requestExit(self):
         avId = self.air.getAvatarIdFromSender()
         if avId != self.avId:
-            self.air.writeServerEvent('suspicious', avId, 'Toon tried to get off a starting block they\'re not on!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Toon tried to get off a starting block they\'re not on!')
         self.b_setMovie(KartGlobals.EXIT_MOVIE)
 
     def setOccupied(self, avId):
@@ -88,10 +88,10 @@ class DistributedStartingBlockAI(DistributedObjectAI):
     def movieFinished(self):
         avId = self.air.getAvatarIdFromSender()
         if self.avId != avId:
-            self.air.writeServerEvent('suspicious', avId, 'Toon tried to end movie of another toon!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Toon tried to end movie of another toon!')
             return
         if not self.currentMovie:
-            self.air.writeServerEvent('suspicious', avId, 'Toon tried to end non-existent movie!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Toon tried to end non-existent movie!')
             return
         if self.currentMovie == KartGlobals.EXIT_MOVIE:
             self.b_setOccupied(0)
@@ -112,7 +112,7 @@ class DistributedViewingBlockAI(DistributedStartingBlockAI):
             return
         if self.avId != 0:
             if self.avId == avId:
-                self.air.writeServerEvent('suspicious', avId, 'Toon tried to board the same starting block twice!')
+                self.air.writeServerEventMessage('suspicious', avId, 'Toon tried to board the same starting block twice!')
             self.sendUpdateToAvatarId(avId, 'rejectEnter', [KartGlobals.ERROR_CODE.eOccupied])
             return
         self.b_setOccupied(avId)

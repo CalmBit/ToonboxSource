@@ -326,7 +326,7 @@ class LoginAccountFSM(OperationFSM):
 
     def __handleLookup(self, result):
         if not result.get('success'):
-            self.csm.air.writeServerEvent('tokenRejected', self.target, self.token)
+            self.csm.air.writeServerEventMessage('tokenRejected', self.target, self.token)
             self.demand('Kill', result.get('reason', 'The account server rejected your token.'))
             return
 
@@ -378,7 +378,7 @@ class LoginAccountFSM(OperationFSM):
             return
 
         self.accountId = accountId
-        self.csm.air.writeServerEvent('accountCreated', accountId)
+        self.csm.air.writeServerEventMessage('accountCreated', accountId)
         self.demand('StoreAccountID')
 
     def enterStoreAccountID(self):
@@ -458,7 +458,7 @@ class LoginAccountFSM(OperationFSM):
              'ACCOUNT_ID': str(self.userId)})
 
         # We're done.
-        self.csm.air.writeServerEvent('accountLogin', self.target, self.accountId, self.userId)
+        self.csm.air.writeServerEventMessage('accountLogin', self.target, self.accountId, self.userId)
         self.csm.sendUpdateToChannel(self.target, 'acceptLogin', [int(time.time())])
         self.demand('Off')
 
@@ -549,7 +549,7 @@ class CreateAvatarFSM(OperationFSM):
             return
 
         # Otherwise, we're done!
-        self.csm.air.writeServerEvent('avatarCreated', self.avId, self.target, self.dna.encode('hex'), self.index)
+        self.csm.air.writeServerEventMessage('avatarCreated', self.avId, self.target, self.dna.encode('hex'), self.index)
         self.csm.sendUpdateToAccountId(self.target, 'createAvatarResp', [self.avId])
         self.demand('Off')
 
@@ -698,7 +698,7 @@ class DeleteAvatarFSM(GetAvatarsFSM):
             return
 
         self.csm.air.friendsManager.clearList(self.avId)
-        self.csm.air.writeServerEvent('avatarDeleted', self.avId, self.target)
+        self.csm.air.writeServerEventMessage('avatarDeleted', self.avId, self.target)
         self.demand('QueryAvatars')
 
 class SetNameTypedFSM(AvatarOperationFSM):
@@ -752,7 +752,7 @@ class SetNameTypedFSM(AvatarOperationFSM):
                      'WishName': (self.name,)})
 
         if self.avId:
-            self.csm.air.writeServerEvent('avatarWishname', self.avId, self.name)
+            self.csm.air.writeServerEventMessage('avatarWishname', self.avId, self.name)
 
         self.csm.sendUpdateToAccountId(self.target, 'setNameTypedResp', [self.avId, status])
         self.demand('Off')
@@ -810,7 +810,7 @@ class SetNamePatternFSM(AvatarOperationFSM):
              'WishName': ('',),
              'setName': (name,)})
 
-        self.csm.air.writeServerEvent('avatarNamed', self.avId, name)
+        self.csm.air.writeServerEventMessage('avatarNamed', self.avId, name)
         self.csm.sendUpdateToAccountId(self.target, 'setNamePatternResp', [self.avId, 1])
         self.demand('Off')
 
@@ -909,7 +909,7 @@ class LoadAvatarFSM(AvatarOperationFSM):
         # Tell the GlobalPartyManager as well:
         self.csm.air.globalPartyMgr.avatarJoined(self.avId)
 
-        self.csm.air.writeServerEvent('avatarChosen', self.avId, self.target)
+        self.csm.air.writeServerEventMessage('avatarChosen', self.avId, self.target)
         self.demand('Off')
         return task.done
 
@@ -1012,7 +1012,7 @@ class UnloadAvatarFSM(OperationFSM):
         self.csm.air.send(datagram)
 
         # Done!
-        self.csm.air.writeServerEvent('avatarUnload', self.avId)
+        self.csm.air.writeServerEventMessage('avatarUnload', self.avId)
         self.demand('Off')
 
 

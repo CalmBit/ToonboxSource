@@ -46,15 +46,15 @@ class DistributedClosetAI(DistributedFurnitureItemAI):
         avId = self.air.getAvatarIdFromSender()
         if self.avId:
             if self.avId == avId:
-                self.air.writeServerEvent('suspicious', avId, 'Tried to use closet twice!')
+                self.air.writeServerEventMessage('suspicious', avId, 'Tried to use closet twice!')
             self.sendUpdateToAvatarId(avId, 'freeAvatar', [])
             return
         av = self.air.doId2do.get(avId)
         if not av:
-            self.air.writeServerEvent('suspicious', avId, 'Not in same shard as closet!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Not in same shard as closet!')
             return
         if not self.__verifyAvatarInMyZone(av):
-            self.air.writeServerEvent('suspicious', avId, 'Not in same zone as closet!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Not in same zone as closet!')
             return
         self.customerDNA = av.dna
         self.avId = avId
@@ -63,18 +63,18 @@ class DistributedClosetAI(DistributedFurnitureItemAI):
     def removeItem(self, item, topOrBottom):
         avId = self.air.getAvatarIdFromSender()
         if avId != self.furnitureMgr.ownerId:
-            self.air.writeServerEvent('suspicious', avId, 'Tried to remove item from someone else\'s closet!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to remove item from someone else\'s closet!')
             return
         if avId != self.avId:
-            self.air.writeServerEvent('suspicious', avId, 'Tried to remove item while not interacting with closet!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to remove item while not interacting with closet!')
             return
         av = self.air.doId2do.get(avId)
         if not av:
-            self.air.writeServerEvent('suspicious', avId, 'Tried to interact with a closet from another shard!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to interact with a closet from another shard!')
             return
         tempDna = ToonDNA()
         if not tempDna.isValidNetString(item):
-            self.air.writeServerEvent('suspicious', avId, 'Sent an invalid DNA string!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Sent an invalid DNA string!')
             return
         tempDna.makeFromNetString(item)
         if topOrBottom == ClosetGlobals.SHIRT:
@@ -82,7 +82,7 @@ class DistributedClosetAI(DistributedFurnitureItemAI):
         elif topOrBottom == ClosetGlobals.SHORTS:
             self.removedBottoms.append([tempDna.botTex, tempDna.botTexColor])
         else:
-            self.air.writeServerEvent('suspicious', avId, 'Set an invalid topOrBottom value!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Set an invalid topOrBottom value!')
             return
 
     def __checkValidDNAChange(self, av, testDNA):
@@ -110,23 +110,23 @@ class DistributedClosetAI(DistributedFurnitureItemAI):
     def setDNA(self, dnaString, finished, whichItem):
         avId = self.air.getAvatarIdFromSender()
         if avId != self.avId:
-            self.air.writeServerEvent('suspicious', avId, 'Tried to set DNA from closet while not using it!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to set DNA from closet while not using it!')
             return
         av = self.air.doId2do.get(avId)
         if not av:
-            self.air.writeServerEvent('suspicious', avId, 'Interacted with a closet from another shard!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Interacted with a closet from another shard!')
             return
         if not self.__verifyAvatarInMyZone(av):
-            self.air.writeServerEvent('suspicious', avId, 'Tried to setDNA while in another zone!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to setDNA while in another zone!')
             return
         testDna = ToonDNA()
         if not testDna.isValidNetString(dnaString):
-            self.air.writeServerEvent('suspicious', avId, 'Tried to set invalid DNA at a closet!')
+            self.air.writeServerEventMessage('suspicious', avId, 'Tried to set invalid DNA at a closet!')
             return
         if not finished:
             testDna.makeFromNetString(dnaString)
             if not self.__checkValidDNAChange(av, testDna):
-                    self.air.writeServerEvent('suspicious', avId, 'Tried to change their DNA temporarily!')
+                    self.air.writeServerEventMessage('suspicious', avId, 'Tried to change their DNA temporarily!')
                     return
             self.sendUpdate('setCustomerDNA', [avId, dnaString])
             return
@@ -141,7 +141,7 @@ class DistributedClosetAI(DistributedFurnitureItemAI):
             self.avId = None
         elif finished == 2:
             if avId != self.furnitureMgr.ownerId:
-                self.air.writeServerEvent('suspicious', avId, 'Tried to set their clothes from somebody else\'s closet!')
+                self.air.writeServerEventMessage('suspicious', avId, 'Tried to set their clothes from somebody else\'s closet!')
                 return
             testDna.makeFromNetString(dnaString)
             if whichItem & ClosetGlobals.SHIRT:
@@ -152,7 +152,7 @@ class DistributedClosetAI(DistributedFurnitureItemAI):
                     self.customerDNA.sleeveTex = testDna.sleeveTex
                     self.customerDNA.sleeveTexColor = testDna.sleeveTexColor
                 else:
-                    self.air.writeServerEvent('suspicious', avId, 'Tried to set their shirt to a shirt they don\'t own!')
+                    self.air.writeServerEventMessage('suspicious', avId, 'Tried to set their shirt to a shirt they don\'t own!')
             if whichItem & ClosetGlobals.SHORTS:
                 success = av.replaceItemInClothesBottomsList(testDna.botTex, testDna.botTexColor, self.customerDNA.botTex, self.customerDNA.botTexColor)
                 if success:
@@ -160,24 +160,24 @@ class DistributedClosetAI(DistributedFurnitureItemAI):
                     self.customerDNA.botTexColor = testDna.botTexColor
                     if self.customerDNA.torso != testDna.torso:
                             if self.customerDNA.gender == 'm':
-                                self.air.writeServerEvent('suspicious', avId, 'Tried to change their torso size!')
+                                self.air.writeServerEventMessage('suspicious', avId, 'Tried to change their torso size!')
                                 return
                             elif self.customerDNA.torso[0] != testDna.torso[0]:
-                                self.air.writeServerEvent('suspicious', avId, 'Tried to change their torso size!')
+                                self.air.writeServerEventMessage('suspicious', avId, 'Tried to change their torso size!')
                                 return
                     self.customerDNA.torso = testDna.torso
                 else:
-                    self.air.writeServerEvent('suspicious', avId, 'Tried to set their shorts to a pair they don\'t own!')
+                    self.air.writeServerEventMessage('suspicious', avId, 'Tried to set their shorts to a pair they don\'t own!')
             for bottom in self.removedBottoms:
                 botTex, botTexColor = bottom
                 success = av.removeItemInClothesBottomsList(botTex, botTexColor)
                 if not success:
-                    self.air.writeServerEvent('suspicious', avId, 'Tried to remove a bottom they didn\'t have!')
+                    self.air.writeServerEventMessage('suspicious', avId, 'Tried to remove a bottom they didn\'t have!')
             for top in self.removedTops:
                 topTex, topTexColor, sleeveTex, sleeveTexColor = top
                 success = av.removeItemInClothesTopsList(topTex, topTexColor, sleeveTex, sleeveTexColor)
                 if not success:
-                    self.air.writeServerEvent('suspicious', avId, 'Tried to remove a top they didn\'t have!')
+                    self.air.writeServerEventMessage('suspicious', avId, 'Tried to remove a top they didn\'t have!')
             av.b_setDNAString(self.customerDNA.makeNetString())
             av.b_setClothesTopsList(av.getClothesTopsList())
             av.b_setClothesBottomsList(av.getClothesBottomsList())
