@@ -44,7 +44,7 @@ class FishPanel(DirectFrame):
         self.weight = DirectLabel(parent=self, pos=(0, 0, -0.28), relief=None, state=DGG.NORMAL, text='', text_scale=0.05, text_fg=(0, 0, 0, 1), text_pos=(0, 0.0, 0), text_font=ToontownGlobals.getInterfaceFont(), text_wordwrap=10.5)
         self.value = DirectLabel(parent=self, pos=(0, 0, -0.35), relief=None, state=DGG.NORMAL, text='', text_scale=0.05, text_fg=(0, 0, 0, 1), text_pos=(0, 0, 0), text_font=ToontownGlobals.getInterfaceFont(), text_wordwrap=10.5)
         self.mystery = DirectLabel(parent=self, pos=(-0.025, 0, -0.055), relief=None, state=DGG.NORMAL, text='?', text_scale=0.25, text_fg=(0, 0, 0, 1), text_pos=(0, 0, 0), text_font=ToontownGlobals.getInterfaceFont(), text_wordwrap=10.5)
-        self.extraLabel = DirectLabel(parent=self, relief=None, state=DGG.NORMAL, text='', text_fg=(0.2, 0.8, 0.4, 1), text_font=ToontownGlobals.getSignFont(), text_scale=0.08, pos=(0, 0, 0.26))
+        self.extraLabel = DirectLabel(parent=self, relief=None, state=DGG.NORMAL, text='', text_fg=(0.2, 0.8, 0.8, 1), text_font=ToontownGlobals.getSignFont(), text_scale=0.08, pos=(0, 0, 0.26))
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         self.cancel = DirectButton(parent=self, pos=(0.275, 0, -0.375), relief=None, state=DGG.NORMAL, image=(buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr')), image_scale=(0.6, 1, 0.6), command=self.handleCancel)
         buttons.removeNode()
@@ -97,11 +97,13 @@ class FishPanel(DirectFrame):
             self.extraLabel.hide()
         elif code == FishGlobals.FishItemNewEntry:
             self.extraLabel.show()
+            self.extraLabel['text_fg'] = (0.2, 0.8, 0.8, 1)
             self.extraLabel['text'] = TTLocalizer.FishingNewEntry
             self.extraLabel['text_scale'] = TTLocalizer.FPnewEntry
             self.extraLabel.setPos(0, 0, 0.26)
         elif code == FishGlobals.FishItemNewRecord:
             self.extraLabel.show()
+            self.extraLabel['text_fg'] = (0.8, 0.2, 0.2, 1)
             self.extraLabel['text'] = TTLocalizer.FishingNewRecord
             self.extraLabel['text_scale'] = TTLocalizer.FPnewRecord
         self.photo.show()
