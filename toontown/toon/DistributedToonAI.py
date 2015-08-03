@@ -4360,10 +4360,19 @@ def maxHp(maxHp):
     invoker.toonUp(maxHp - invoker.getHp())
     return 'Set your max HP to: %d' % maxHp
 
+@magicWord(category=CATEGORY_PROGRAMMER, types=[])
+def toonUp():
+    """
+    Max the invoker's current HP.
+    """
+    invoker = spellbook.getTarget()
+    invoker.b_setHp(invoker.getMaxHp())
+    return 'Tooned-up!'
+
 @magicWord(category=CATEGORY_MODERATOR, types=[str])
 def allSummons():
     """
-    Max the invoker's summons
+    Max the invoker's summons.
     """
     invoker = spellbook.getInvoker()
 
